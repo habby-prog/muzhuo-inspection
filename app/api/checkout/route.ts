@@ -23,12 +23,7 @@ export async function POST(req: Request) {
     const domain = process.env.DOMAIN || 'http://localhost:3000'
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'paypal', 'apple_pay'],
-      payment_method_options: {
-        apple_pay: {
-          // Stripe automatically handles Apple Pay for checkout sessions
-        },
-      },
+      payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
