@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AQL Sampling Calculator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; padding: 40px; }
+        .aql-calculator-container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        h2 { text-align: center; color: #333; margin-bottom: 6px; }
+        .page-subtitle { text-align: center; color: #999; font-size: 13px; margin-bottom: 30px; }
+        .input-group { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 20px; }
+        .input-item { flex: 1; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input[type="number"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .defects-grid { display: flex; justify-content: space-between; gap: 20px; }
+        .defect-card { flex: 1; padding: 20px; border-radius: 8px; color: white; display: flex; flex-direction: column; justify-content: space-between; }
+        .defect-card h3 { margin-top: 0; font-size: 1.2em; text-align: center; }
+        .critical { background-color: #d9534f; }
+        .major { background-color: #f0ad4e; }
+        .minor { background-color: #f0c978; }
+        .result-item { padding: 8px 0; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+        .result-item span:first-child { font-weight: 500; }
+        .select-aql-group { margin-bottom: 15px; }
+        .result-info { padding-top: 15px; }
+
+        /* Combined Sampling Plan */
+        .combined-section { margin-top: 30px; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 24px; background: #fafafa; }
+        .combined-section h3 { margin: 0 0 6px 0; font-size: 1.1em; color: #333; }
+        .combined-subtitle { color: #888; font-size: 0.85em; margin: 0 0 20px 0; }
+        .combined-summary { display: flex; gap: 16px; margin-bottom: 24px; }
+        .combined-stat { flex: 1; background: white; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; text-align: center; }
+        .combined-stat .stat-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+        .combined-stat .stat-value { font-size: 28px; font-weight: 600; color: #333; }
+        .combined-stat .stat-unit { font-size: 12px; color: #aaa; margin-top: 2px; }
+        .combined-stat.highlight { border-color: #4a90d9; background: #f0f6ff; }
+        .combined-stat.highlight .stat-value { color: #1a5fa8; }
+        .combined-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .combined-table th { background: #f0f0f0; padding: 10px 14px; text-align: left; font-weight: 600; color: #555; border-bottom: 2px solid #e0e0e0; }
+        .combined-table td { padding: 11px 14px; border-bottom: 1px solid #f0f0f0; color: #333; vertical-align: middle; }
+        .combined-table tr:last-child td { border-bottom: none; }
+        .combined-table tr:hover td { background: #f8f8f8; }
+        .defect-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge-critical { background: #fde8e8; color: #c0392b; }
+        .badge-major { background: #fef3e2; color: #c47a00; }
+        .badge-minor { background: #fdf8e1; color: #9a7d00; }
+        .ac-tag { padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; }
+        .ac-tag.ac { background: #e8f5e9; color: #2e7d32; }
+        .ac-tag.re { background: #fdecea; color: #c62828; }
+        .zero-defect-tag { padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; background: #fdecea; color: #b71c1c; }
+        .combined-note { margin-top: 16px; padding: 12px 16px; background: #fffbf0; border-left: 3px solid #f5a623; border-radius: 4px; font-size: 13px; color: #7a5a00; line-height: 1.6; }
+
+        /* Style Distribution */
+        .batch-section { margin-top: 30px; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 24px; background: #fafafa; }
+        .batch-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .batch-header-left h3 { margin: 0 0 4px 0; font-size: 1.1em; color: #333; }
+        .batch-subtitle { color: #888; font-size: 0.85em; margin: 0; }
+        .batch-total-input-group { display: flex; align-items: center; gap: 10px; }
+        .batch-total-input-group label { font-weight: 600; color: #555; font-size: 14px; white-space: nowrap; margin-bottom: 0; }
+        .batch-total-input { width: 110px; padding: 8px 10px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 16px; font-weight: 600; color: #1a5fa8; text-align: center; }
+        .batch-sync-btn { padding: 8px 14px; border: 1px solid #ccc; border-radius: 6px; background: white; color: #555; font-size: 13px; cursor: pointer; white-space: nowrap; }
+        .batch-sync-btn:hover { background: #f0f0f0; }
+        .batch-data-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+        .batch-data-table th { background: #f0f0f0; padding: 10px 12px; text-align: center; font-weight: 600; color: #555; font-size: 13px; border-bottom: 2px solid #e0e0e0; }
+        .batch-data-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; text-align: center; vertical-align: middle; }
+        .batch-data-table tr:last-child td { border-bottom: none; }
+        .batch-data-table tr:hover td { background: #f5f5f5; }
+        .style-name-input { width: 80px; padding: 7px 8px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; text-align: center; font-family: inherit; }
+        .style-qty-input { width: 100px; padding: 7px 8px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; text-align: center; font-family: inherit; }
+        .style-qty-input:focus, .style-name-input:focus { outline: none; border-color: #4a90d9; }
+        .sample-result-cell { color: #1a5fa8; font-weight: 700; font-size: 16px; }
+        .del-btn { padding: 5px 14px; border: 1px solid #e0e0e0; border-radius: 5px; background: white; color: #999; cursor: pointer; font-size: 13px; font-family: inherit; }
+        .del-btn:hover { background: #fdecea; border-color: #f5a5a5; color: #c0392b; }
+        .add-style-btn { width: 100%; padding: 10px; border: 1.5px dashed #ccc; border-radius: 6px; background: white; color: #888; font-size: 14px; cursor: pointer; font-family: inherit; margin-bottom: 20px; }
+        .add-style-btn:hover { border-color: #4a90d9; color: #4a90d9; background: #f0f6ff; }
+        .batch-result { display: none; border-top: 2px solid #e8e8e8; padding-top: 18px; }
+        .batch-result-row { display: flex; gap: 16px; margin-bottom: 16px; }
+        .batch-kpi { flex: 1; background: white; border: 1px solid #e8e8e8; border-radius: 8px; padding: 14px 16px; text-align: center; }
+        .batch-kpi .kpi-label { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .batch-kpi .kpi-value { font-size: 24px; font-weight: 700; color: #333; }
+        .batch-ac-grid { display: flex; gap: 12px; }
+        .batch-ac-card { flex: 1; border-radius: 8px; padding: 14px 12px; text-align: center; }
+        .batch-ac-card.critical { background-color: #d9534f; color: white; }
+        .batch-ac-card.major { background-color: #f0ad4e; color: white; }
+        .batch-ac-card.minor { background-color: #f0c978; color: white; }
+        .batch-ac-card .ac-type { font-size: 12px; opacity: 0.9; margin-bottom: 3px; }
+        .batch-ac-card .ac-aql { font-size: 11px; opacity: 0.75; margin-bottom: 8px; }
+        .batch-ac-card .ac-number { font-size: 30px; font-weight: 700; }
+        .batch-ac-card .ac-label { font-size: 11px; opacity: 0.85; margin-top: 4px; }
+        .batch-footer-note { margin-top: 14px; padding: 11px 14px; background: #fffbf0; border-left: 3px solid #f5a623; border-radius: 4px; font-size: 13px; color: #7a5a00; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="aql-calculator-container">
+        <h2>AQL Sampling Calculator</h2>
+        <p class="page-subtitle">ANSI/ASQ Z1.4 — Normal Inspection, Single Sampling</p>
+
+        <div class="input-group">
+            <div class="input-item">
+                <label for="quantity">Lot Size</label>
+                <input type="number" id="quantity" value="50000" min="2" onchange="calculateAQL()" onkeyup="calculateAQL()">
+            </div>
+            <div class="input-item">
+                <label for="level">Inspection Level</label>
+                <select id="level" onchange="calculateAQL()">
+                    <option value="I">I — Reduced</option>
+                    <option value="II" selected>II — Normal</option>
+                    <option value="III">III — Tightened</option>
+                    <option value="S1">S1</option>
+                    <option value="S2">S2</option>
+                    <option value="S3">S3</option>
+                    <option value="S4">S4</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="defects-grid">
+            <div class="defect-card critical">
+                <h3>Critical Defects</h3>
+                <div class="select-aql-group">
+                    <label style="color:white; font-weight:400;">Select AQL</label>
+                    <select id="aql-critical" onchange="calculateAQL()">
+                        <option value="0.0" selected>0.0 — Zero Tolerance</option>
+                    </select>
+                </div>
+                <div class="result-info">
+                    <div class="result-item">Code Letter: <span id="code-critical"></span></div>
+                    <div class="result-item">Sample Size: <span id="sample-critical"></span></div>
+                    <div class="result-item">Accept (Ac): <span id="accept-critical"></span></div>
+                    <div class="result-item">Reject (Re): <span id="reject-critical"></span></div>
+                </div>
+            </div>
+
+            <div class="defect-card major">
+                <h3>Major Defects</h3>
+                <div class="select-aql-group">
+                    <label style="color:white; font-weight:400;">Select AQL</label>
+                    <select id="aql-major" onchange="calculateAQL()">
+                        <option value="1.0">1.0</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2.5" selected>2.5 — Common</option>
+                        <option value="4.0">4.0</option>
+                    </select>
+                </div>
+                <div class="result-info">
+                    <div class="result-item">Code Letter: <span id="code-major"></span></div>
+                    <div class="result-item">Sample Size: <span id="sample-major"></span></div>
+                    <div class="result-item">Accept (Ac): <span id="accept-major"></span></div>
+                    <div class="result-item">Reject (Re): <span id="reject-major"></span></div>
+                </div>
+            </div>
+
+            <div class="defect-card minor">
+                <h3>Minor Defects</h3>
+                <div class="select-aql-group">
+                    <label style="color:white; font-weight:400;">Select AQL</label>
+                    <select id="aql-minor" onchange="calculateAQL()">
+                        <option value="2.5">2.5</option>
+                        <option value="4.0" selected>4.0 — Common</option>
+                        <option value="6.5">6.5</option>
+                        <option value="10.0">10.0</option>
+                    </select>
+                </div>
+                <div class="result-info">
+                    <div class="result-item">Code Letter: <span id="code-minor"></span></div>
+                    <div class="result-item">Sample Size: <span id="sample-minor"></span></div>
+                    <div class="result-item">Accept (Ac): <span id="accept-minor"></span></div>
+                    <div class="result-item">Reject (Re): <span id="reject-minor"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combined Sampling Plan -->
+        <div class="combined-section">
+            <h3>Combined Sampling Plan</h3>
+            <p class="combined-subtitle">One sample inspected for all three defect types simultaneously — uses the largest required sample size</p>
+
+            <div class="combined-summary">
+                <div class="combined-stat highlight">
+                    <div class="stat-label">Combined Sample Size</div>
+                    <div class="stat-value" id="combined-sample">—</div>
+                    <div class="stat-unit">units</div>
+                </div>
+                <div class="combined-stat">
+                    <div class="stat-label">Code Letter</div>
+                    <div class="stat-value" id="combined-code">—</div>
+                    <div class="stat-unit">Sample Code</div>
+                </div>
+                <div class="combined-stat">
+                    <div class="stat-label">Sampling Ratio</div>
+                    <div class="stat-value" id="combined-ratio">—</div>
+                    <div class="stat-unit">% of lot size</div>
+                </div>
+            </div>
+
+            <table class="combined-table">
+                <thead>
+                    <tr>
+                        <th>Defect Type</th>
+                        <th>AQL</th>
+                        <th>Accept (Ac)</th>
+                        <th>Reject (Re)</th>
+                        <th>Verdict Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="defect-badge badge-critical">Critical</span></td>
+                        <td id="c-aql-display">—</td>
+                        <td id="c-ac">—</td>
+                        <td id="c-re">—</td>
+                        <td id="c-verdict">—</td>
+                    </tr>
+                    <tr>
+                        <td><span class="defect-badge badge-major">Major</span></td>
+                        <td id="m-aql-display">—</td>
+                        <td id="m-ac">—</td>
+                        <td id="m-re">—</td>
+                        <td id="m-verdict">—</td>
+                    </tr>
+                    <tr>
+                        <td><span class="defect-badge badge-minor">Minor</span></td>
+                        <td id="n-aql-display">—</td>
+                        <td id="n-ac">—</td>
+                        <td id="n-re">—</td>
+                        <td id="n-verdict">—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="combined-note">
+                <strong>How to use:</strong> Draw <strong id="note-sample">—</strong> units from the lot and record defects by type. Each type is judged against its own accept number. If <em>any</em> type reaches its reject number (Re), the entire lot is rejected.
+            </div>
+        </div>
+
+        <!-- Style Distribution -->
+        <div class="batch-section">
+            <div class="batch-header">
+                <div class="batch-header-left">
+                    <h3>Style Proportional Distribution</h3>
+                    <p class="batch-subtitle">Split a fixed sample size proportionally across multiple styles</p>
+                </div>
+                <div class="batch-total-input-group">
+                    <label for="batch-total-sample">Total Sample Size</label>
+                    <input type="number" id="batch-total-sample" class="batch-total-input" value="" min="1" placeholder="e.g. 500" oninput="runBatchCalc()">
+                    <button class="batch-sync-btn" onclick="syncFromMainSample()" title="Sync from Combined Sampling Plan above">↑ Sync</button>
+                </div>
+            </div>
+
+            <table class="batch-data-table">
+                <thead>
+                    <tr>
+                        <th>Style</th>
+                        <th>Qty</th>
+                        <th>Samples</th>
+                        <th>Share</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="style-tbody"></tbody>
+            </table>
+
+            <button class="add-style-btn" onclick="addStyleRow()">＋ Add Style</button>
+
+            <div class="batch-result" id="batch-result">
+                <div class="batch-result-row">
+                    <div class="batch-kpi">
+                        <div class="kpi-label">Total Qty</div>
+                        <div class="kpi-value" id="batch-total-qty-display">—</div>
+                    </div>
+                    <div class="batch-kpi">
+                        <div class="kpi-label">Total Samples</div>
+                        <div class="kpi-value" id="batch-total-sample-display">—</div>
+                    </div>
+                    <div class="batch-kpi">
+                        <div class="kpi-label">Overall Ratio</div>
+                        <div class="kpi-value" id="batch-ratio-display">—</div>
+                    </div>
+                </div>
+                <div class="batch-ac-grid">
+                    <div class="batch-ac-card critical">
+                        <div class="ac-type">Critical Defects</div>
+                        <div class="ac-aql" id="batch-aql-critical-label">AQL 0.0</div>
+                        <div class="ac-number" id="batch-ac-critical">—</div>
+                        <div class="ac-label">Accept No. (Ac)</div>
+                    </div>
+                    <div class="batch-ac-card major">
+                        <div class="ac-type">Major Defects</div>
+                        <div class="ac-aql" id="batch-aql-major-label">AQL 2.5</div>
+                        <div class="ac-number" id="batch-ac-major">—</div>
+                        <div class="ac-label">Accept No. (Ac)</div>
+                    </div>
+                    <div class="batch-ac-card minor">
+                        <div class="ac-type">Minor Defects</div>
+                        <div class="ac-aql" id="batch-aql-minor-label">AQL 4.0</div>
+                        <div class="ac-number" id="batch-ac-minor">—</div>
+                        <div class="ac-label">Accept No. (Ac)</div>
+                    </div>
+                </div>
+                <div class="batch-footer-note" id="batch-footer-note">
+                    Inspect <strong id="batch-note-sample">—</strong> units drawn proportionally across all styles. Judge each defect type against its own accept number — any type reaching Re results in lot rejection.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Table 1: Lot Size → Sample Code Letter
+        const LOT_SIZE_TABLE = [
+            [8,         'A','A','B','A','A','A','A'],
+            [15,        'A','B','C','A','A','A','A'],
+            [25,        'B','C','D','A','A','B','B'],
+            [50,        'C','D','E','A','B','C','C'],
+            [90,        'D','E','F','B','B','C','D'],
+            [150,       'D','F','G','B','C','C','D'],
+            [280,       'E','G','H','B','C','D','E'],
+            [500,       'F','H','J','C','C','E','F'],
+            [1200,      'G','J','K','C','D','E','F'],
+            [3200,      'H','K','L','C','D','F','G'],
+            [10000,     'J','L','M','C','D','F','G'],
+            [35000,     'K','M','N','C','D','F','H'],
+            [150000,    'L','N','P','D','E','G','J'],
+            [500000,    'M','P','Q','D','E','H','K'],
+            [999999999, 'N','Q','R','D','E','H','K']
+        ];
+
+        // Table 2: Sample Code Letter → (Sample Size, AQL → [Ac, Re])
+        const AQL_PLAN_TABLE = {
+            'A': [2,    {'0.0':[0,1],'0.65':[0,1],'1.0':[0,1],'1.5':[0,1],'2.5':[0,1],'4.0':[0,1],'6.5':[0,1]}],
+            'B': [3,    {'0.0':[0,1],'0.65':[0,1],'1.0':[0,1],'1.5':[0,1],'2.5':[0,1],'4.0':[0,1],'6.5':[1,2]}],
+            'C': [5,    {'0.0':[0,1],'0.65':[0,1],'1.0':[0,1],'1.5':[0,1],'2.5':[1,2],'4.0':[1,2],'6.5':[2,3]}],
+            'D': [8,    {'0.0':[0,1],'0.40':[0,1],'0.65':[0,1],'1.0':[1,2],'1.5':[1,2],'2.5':[2,3],'4.0':[3,4],'6.5':[5,6]}],
+            'E': [13,   {'0.0':[0,1],'0.40':[0,1],'0.65':[1,2],'1.0':[1,2],'1.5':[2,3],'2.5':[3,4],'4.0':[5,6],'6.5':[7,8]}],
+            'F': [20,   {'0.0':[0,1],'0.40':[1,2],'0.65':[1,2],'1.0':[2,3],'1.5':[3,4],'2.5':[5,6],'4.0':[7,8],'6.5':[10,11]}],
+            'G': [32,   {'0.0':[0,1],'0.40':[1,2],'0.65':[2,3],'1.0':[3,4],'1.5':[5,6],'2.5':[7,8],'4.0':[10,11],'6.5':[14,15]}],
+            'H': [50,   {'0.0':[0,1],'0.40':[2,3],'0.65':[3,4],'1.0':[5,6],'1.5':[7,8],'2.5':[10,11],'4.0':[14,15],'6.5':[21,22]}],
+            'J': [80,   {'0.0':[1,2],'0.15':[0,1],'0.25':[0,1],'0.40':[3,4],'0.65':[5,6],'1.0':[7,8],'1.5':[10,11],'2.5':[14,15],'4.0':[21,22],'6.5':[21,22]}],
+            'K': [125,  {'0.0':[1,2],'0.15':[1,2],'0.25':[1,2],'0.40':[5,6],'0.65':[7,8],'1.0':[10,11],'1.5':[14,15],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'L': [200,  {'0.0':[2,3],'0.10':[0,1],'0.15':[1,2],'0.25':[2,3],'0.40':[7,8],'0.65':[10,11],'1.0':[14,15],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'M': [315,  {'0.0':[3,4],'0.10':[1,2],'0.15':[2,3],'0.25':[3,4],'0.40':[10,11],'0.65':[14,15],'1.0':[21,22],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'N': [500,  {'0.0':[5,6],'0.10':[2,3],'0.15':[3,4],'0.25':[5,6],'0.40':[14,15],'0.65':[21,22],'1.0':[21,22],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'P': [800,  {'0.0':[7,8],'0.10':[3,4],'0.15':[5,6],'0.25':[7,8],'0.40':[21,22],'0.65':[21,22],'1.0':[21,22],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'Q': [1250, {'0.0':[10,11],'0.10':[5,6],'0.15':[7,8],'0.25':[10,11],'0.40':[21,22],'0.65':[21,22],'1.0':[21,22],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}],
+            'R': [2000, {'0.0':[14,15],'0.10':[7,8],'0.15':[10,11],'0.25':[14,15],'0.40':[21,22],'0.65':[21,22],'1.0':[21,22],'1.5':[21,22],'2.5':[21,22],'4.0':[21,22],'6.5':[21,22]}]
+        };
+
+        function getSampleCode(quantity, level) {
+            if (quantity < 2) return null;
+            const levelMap = { 'I':1, 'II':2, 'III':3, 'S1':4, 'S2':5, 'S3':6, 'S4':7 };
+            const idx = levelMap[level];
+            for (const row of LOT_SIZE_TABLE) {
+                if (quantity <= row[0]) return row[idx];
+            }
+            return null;
+        }
+
+        function getAQLPlan(code, aqlValue) {
+            const plan = AQL_PLAN_TABLE[code];
+            if (!plan) return { sample:'N/A', accept:'N/A', reject:'N/A', code };
+            const sampleSize = plan[0];
+            const aqlPlans  = plan[1];
+            const key = parseFloat(aqlValue).toFixed(1);
+            if (aqlPlans[key]) {
+                const [ac, re] = aqlPlans[key];
+                return { sample: sampleSize, accept: ac, reject: re, code };
+            }
+            return { sample: sampleSize, accept:'N/A', reject:'N/A', code };
+        }
+
+        function calculateAQL() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const level    = document.getElementById('level').value;
+
+            if (quantity < 2) {
+                document.getElementById('code-critical').textContent = 'N/A';
+                document.getElementById('sample-critical').textContent = 'Lot too small';
+                return;
+            }
+
+            const code = getSampleCode(quantity, level);
+            const results = {};
+
+            function renderCard(prefix) {
+                const aqlValue = document.getElementById('aql-' + prefix).value;
+                const result   = getAQLPlan(code, aqlValue);
+                document.getElementById('code-'   + prefix).textContent = result.code   || 'N/A';
+                document.getElementById('sample-' + prefix).textContent = result.sample + ' units';
+                document.getElementById('accept-' + prefix).textContent = result.accept !== undefined ? result.accept : 'N/A';
+                document.getElementById('reject-' + prefix).textContent = result.reject !== undefined ? result.reject : 'N/A';
+                results[prefix] = { aql: aqlValue, sample: result.sample, accept: result.accept, reject: result.reject };
+            }
+
+            renderCard('critical');
+            renderCard('major');
+            renderCard('minor');
+            updateCombined(quantity, results);
+            runBatchCalc();
+        }
+
+        function updateCombined(quantity, results) {
+            const entries = ['critical','major','minor']
+                .map(k => ({ key: k, ...results[k] }))
+                .filter(r => typeof r.sample === 'number');
+            if (!entries.length) return;
+
+            const maxSample = Math.max(...entries.map(r => r.sample));
+            let combinedCode = '—';
+            for (const [c, plan] of Object.entries(AQL_PLAN_TABLE)) {
+                if (plan[0] === maxSample) { combinedCode = c; break; }
+            }
+
+            const ratio = quantity > 0 ? ((maxSample / quantity) * 100).toFixed(2) : '—';
+            document.getElementById('combined-sample').textContent = maxSample;
+            document.getElementById('combined-code').textContent   = combinedCode;
+            document.getElementById('combined-ratio').textContent  = ratio;
+            document.getElementById('note-sample').textContent     = maxSample;
+
+            function renderRow(prefix, pfx) {
+                const r   = results[prefix];
+                const aql = parseFloat(r.aql) === 0 ? '0.0 (Zero Tolerance)' : r.aql;
+                document.getElementById(pfx + '-aql-display').textContent = aql;
+
+                if (parseFloat(r.aql) === 0) {
+                    document.getElementById(pfx + '-ac').innerHTML = '<span class="ac-tag ac">0</span>';
+                    document.getElementById(pfx + '-re').innerHTML = '<span class="ac-tag re">1</span>';
+                    document.getElementById(pfx + '-verdict').innerHTML = '<span class="zero-defect-tag">Zero Tolerance</span>';
+                } else {
+                    const ac = (r.accept !== undefined && r.accept !== 'N/A') ? r.accept : '—';
+                    const re = (r.reject !== undefined && r.reject !== 'N/A') ? r.reject : '—';
+                    document.getElementById(pfx + '-ac').innerHTML = '<span class="ac-tag ac">' + ac + '</span>';
+                    document.getElementById(pfx + '-re').innerHTML = '<span class="ac-tag re">' + re + '</span>';
+                    document.getElementById(pfx + '-verdict').textContent = ac !== '—' ? 'Found ≤ ' + ac + ' → Pass' : '—';
+                }
+            }
+
+            renderRow('critical', 'c');
+            renderRow('major',    'm');
+            renderRow('minor',    'n');
+        }
+
+        // ── Style Proportional Distribution ──────────────────────────────────
+        let styleList = [];
+        let styleIdCounter = 0;
+
+        function addStyleRow() {
+            styleIdCounter++;
+            const name = styleIdCounter <= 26
+                ? String.fromCharCode(64 + styleIdCounter)
+                : 'Style ' + styleIdCounter;
+            styleList.push({ id: styleIdCounter, name, qty: 0, samples: 0 });
+            renderStyleRows();
+            runBatchCalc();
+        }
+
+        function removeStyleRow(id) {
+            styleList = styleList.filter(s => s.id !== id);
+            renderStyleRows();
+            runBatchCalc();
+        }
+
+        function renderStyleRows() {
+            const tbody = document.getElementById('style-tbody');
+            tbody.innerHTML = '';
+            styleList.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.id = 'style-row-' + s.id;
+                tr.innerHTML =
+                    '<td><input type="text" class="style-name-input" value="' + s.name + '" oninput="updateStyleName(' + s.id + ', this.value)"></td>' +
+                    '<td><input type="number" class="style-qty-input" value="' + (s.qty || '') + '" placeholder="0" min="0" oninput="updateStyleQty(' + s.id + ', this.value)"></td>' +
+                    '<td class="sample-result-cell" id="sample-cell-' + s.id + '">—</td>' +
+                    '<td style="color:#aaa; font-size:13px;" id="pct-cell-' + s.id + '">—</td>' +
+                    '<td><button class="del-btn" onclick="removeStyleRow(' + s.id + ')">Remove</button></td>';
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateStyleName(id, val) {
+            const s = styleList.find(x => x.id === id);
+            if (s) s.name = val;
+        }
+
+        function updateStyleQty(id, val) {
+            const s = styleList.find(x => x.id === id);
+            if (s) s.qty = parseInt(val) || 0;
+            runBatchCalc();
+        }
+
+        function syncFromMainSample() {
+            const val = parseInt(document.getElementById('combined-sample').textContent);
+            if (!isNaN(val) && val > 0) {
+                document.getElementById('batch-total-sample').value = val;
+                runBatchCalc();
+            }
+        }
+
+        function getCodeForSampleSize(n) {
+            const order = ['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R'];
+            for (const c of order) {
+                if (AQL_PLAN_TABLE[c][0] >= n) return c;
+            }
+            return 'R';
+        }
+
+        function runBatchCalc() {
+            const totalSample = parseInt(document.getElementById('batch-total-sample').value) || 0;
+            const totalQty    = styleList.reduce((sum, s) => sum + (s.qty || 0), 0);
+
+            if (totalQty <= 0 || totalSample <= 0 || styleList.length === 0) {
+                document.getElementById('batch-result').style.display = 'none';
+                styleList.forEach(s => {
+                    const el = document.getElementById('sample-cell-' + s.id);
+                    const pe = document.getElementById('pct-cell-'   + s.id);
+                    if (el) el.textContent = '—';
+                    if (pe) pe.textContent = '—';
+                });
+                return;
+            }
+
+            // Largest-remainder proportional allocation
+            styleList.forEach(s => {
+                s._exact  = (s.qty / totalQty) * totalSample;
+                s.samples = Math.floor(s._exact);
+            });
+            let remainder = totalSample - styleList.reduce((sum, s) => sum + s.samples, 0);
+            const sorted  = [...styleList].sort((a, b) => (b._exact - b.samples) - (a._exact - a.samples));
+            for (let i = 0; i < remainder; i++) sorted[i % sorted.length].samples++;
+
+            styleList.forEach(s => {
+                const el = document.getElementById('sample-cell-' + s.id);
+                const pe = document.getElementById('pct-cell-'   + s.id);
+                if (el) el.textContent = s.samples;
+                if (pe) pe.textContent = totalQty > 0 ? ((s.qty / totalQty * 100).toFixed(1) + '%') : '—';
+            });
+
+            const sampleCode   = getCodeForSampleSize(totalSample);
+            const criticalAQL  = document.getElementById('aql-critical').value;
+            const majorAQL     = document.getElementById('aql-major').value;
+            const minorAQL     = document.getElementById('aql-minor').value;
+
+            const cPlan = getAQLPlan(sampleCode, criticalAQL);
+            const mPlan = getAQLPlan(sampleCode, majorAQL);
+            const nPlan = getAQLPlan(sampleCode, minorAQL);
+
+            const critAc = parseFloat(criticalAQL) === 0 ? 0
+                : (cPlan.accept !== undefined && cPlan.accept !== 'N/A' ? cPlan.accept : '—');
+            const majAc  = mPlan.accept !== undefined && mPlan.accept !== 'N/A' ? mPlan.accept : '—';
+            const minAc  = nPlan.accept !== undefined && nPlan.accept !== 'N/A' ? nPlan.accept : '—';
+
+            const ratio = ((totalSample / totalQty) * 100).toFixed(1) + '%';
+
+            document.getElementById('batch-result').style.display = 'block';
+            document.getElementById('batch-total-qty-display').textContent    = totalQty.toLocaleString();
+            document.getElementById('batch-total-sample-display').textContent = totalSample.toLocaleString();
+            document.getElementById('batch-ratio-display').textContent        = ratio;
+            document.getElementById('batch-ac-critical').textContent          = critAc;
+            document.getElementById('batch-ac-major').textContent             = majAc;
+            document.getElementById('batch-ac-minor').textContent             = minAc;
+            document.getElementById('batch-aql-critical-label').textContent   = 'AQL ' + criticalAQL;
+            document.getElementById('batch-aql-major-label').textContent      = 'AQL ' + majorAQL;
+            document.getElementById('batch-aql-minor-label').textContent      = 'AQL ' + minorAQL;
+            document.getElementById('batch-note-sample').textContent          = totalSample.toLocaleString();
+        }
+
+        window.onload = function () {
+            calculateAQL();
+            // Seed three default style rows
+            addStyleRow();
+            addStyleRow();
+            addStyleRow();
+        };
+    </script>
+</body>
+</html>
