@@ -78,6 +78,16 @@ const ptComponents = {
       );
     },
   },
+  marks: {
+    link: ({ children, value }: any) => {
+      const href = value?.href || '#';
+      return (
+        <a href={href} className="text-primary-600 underline hover:text-primary-800" target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      );
+    },
+  },
 };
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
