@@ -104,23 +104,22 @@ const ptComponents = {
     },
 
     'cta-box': ({ value }: { value: any }) => {
+      const cleanText = (value.text || '').replace(/\*\*/g, '').replace(/^→\s*/, '');
       return (
-        <div className="my-8 p-6 rounded-xl text-center" style={{ background: `linear-gradient(135deg, ${RED}, #c7324a)`, color: 'white' }}>
-          <div className="text-3xl mb-3">{value.icon || '📋'}</div>
-          <h3 className="text-lg font-bold mb-2" style={{ color: 'white' }}>{value.title || ''}</h3>
-          <p className="text-sm opacity-90 mb-4">{value.text || ''}</p>
+        <div className="my-8 p-5 rounded-xl flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FED7D7' }}>
+          <div className="flex-1 min-w-[200px]">
+            <p className="text-sm text-gray-700">{cleanText}<\/p>
+          <\/div>
           {value.buttonText && (
             <a href={value.buttonUrl || '/order'} target="_blank" rel="noopener noreferrer"
-              className="inline-block px-6 py-2.5 rounded-full font-bold text-sm transition-all hover:scale-105"
-              style={{ backgroundColor: 'white', color: RED }}>
-              {value.buttonText}
-            </a>
+              className="inline-block px-5 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all hover:opacity-90"
+              style={{ backgroundColor: '#E84A5F', color: 'white' }}>
+              {value.buttonText} →
+            <\/a>
           )}
-        </div>
+        <\/div>
       );
-    },
-
-    'tip-box': ({ value }: { value: any }) => {
+    },'tip-box': ({ value }: { value: any }) => {
       return (
         <div className="my-6 p-5 rounded-xl flex gap-3 shadow-sm" style={{ backgroundColor: '#F0F7FF', borderLeft: `4px solid ${BLUE}` }}>
           <span className="text-xl flex-shrink-0 mt-0.5">{value.icon || '💡'}</span>
