@@ -104,20 +104,9 @@ const ptComponents = {
     },
 
     'cta-box': ({ value }: { value: any }) => {
-      const cleanText = (value.text || '').replace(/\*\*/g, '').replace(/^→\s*/, '');
+      const t = (value.text || '').replace(/\*\*/g, '').replace(/^→\s*/, '');
       return (
-        <div className="my-8 p-5 rounded-xl flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FED7D7' }}>
-          <div className="flex-1 min-w-[200px]">
-            <p className="text-sm text-gray-700">{cleanText}<\/p>
-          <\/div>
-          {value.buttonText && (
-            <a href={value.buttonUrl || '/order'} target="_blank" rel="noopener noreferrer"
-              className="inline-block px-5 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all hover:opacity-90"
-              style={{ backgroundColor: '#E84A5F', color: 'white' }}>
-              {value.buttonText} →
-            <\/a>
-          )}
-        <\/div>
+        <p className="my-6 text-gray-700">{t}{value.buttonText ? ' \u2192 ' + value.buttonText : ''}<\/p>
       );
     },'tip-box': ({ value }: { value: any }) => {
       return (
