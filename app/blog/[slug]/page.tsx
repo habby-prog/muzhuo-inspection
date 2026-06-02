@@ -103,10 +103,7 @@ const ptComponents = {
       );
     },
 
-    'cta-box': ({ value }: { value: any }) => {
-      const txt = (value.text || '').replace(/\*\*/g, ' \n').replace(/^\u2192\s*/g, '');
-      return <p className="my-4 text-gray-700">{txt}<br/>{value.buttonText}{' '}{value.buttonUrl ? '(link)' : ''}<\/p>;
-    },'tip-box': ({ value }: { value: any }) => {
+    'tip-box': ({ value }: { value: any }) => {
       return (
         <div className="my-6 p-5 rounded-xl flex gap-3 shadow-sm" style={{ backgroundColor: '#F0F7FF', borderLeft: `4px solid ${BLUE}` }}>
           <span className="text-xl flex-shrink-0 mt-0.5">{value.icon || '💡'}</span>
