@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResend() {
+  const key = process.env.RESEND_API_KEY
+  if (!key) {
+    throw new Error('RESEND_API_KEY environment variable is not set')
+  }
+  return new Resend(key)
+}
 
 export async function POST(req: Request) {
   try {
@@ -15,6 +21,7 @@ export async function POST(req: Request) {
       )
     }
 
+    const resend = getResend()
     const data = await resend.emails.send({
       from: 'Muzhuo Inspection <info@muzhuoinspection.com>',
       to: ['info@muzhuoinspection.com'],
