@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact Muzhuo Inspection - Get in Touch',
@@ -34,27 +35,7 @@ export default function Contact() {
           </div>
           <div className="bg-slate-50 p-8 rounded-xl border">
             <h3 className="text-2xl font-bold mb-6">Send us a message</h3>
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-bold mb-1">Name</label>
-                  <input type="text" className="w-full border p-2 rounded focus:ring-2 focus:ring-primary-600" placeholder="Your Name" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold mb-1">Email</label>
-                  <input type="email" className="w-full border p-2 rounded focus:ring-2 focus:ring-primary-600" placeholder="Your Email" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-bold mb-1">Company Name</label>
-                <input type="text" className="w-full border p-2 rounded focus:ring-2 focus:ring-primary-600" placeholder="Your Company Name" />
-              </div>
-              <div>
-                <label className="block text-sm font-bold mb-1">Message</label>
-                <textarea rows={4} className="w-full border p-2 rounded focus:ring-2 focus:ring-primary-600" placeholder="Your Message"></textarea>
-              </div>
-              <button type="submit" className="w-full bg-primary-600 text-white font-bold py-2 rounded hover:bg-primary-700">Send Message</button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </div>

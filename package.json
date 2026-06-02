@@ -22,6 +22,7 @@
     "next-sanity": "^12.2.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "resend": "^6.12.4",
     "stripe": "^14.16.0",
     "tailwind-merge": "^2.2.1"
   },
