@@ -339,18 +339,18 @@ export default function AQLCalculator() {
         </div>
 
         <div className="mt-12 bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-          <div className="flex justify-between items-end mb-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-black uppercase">Style Proportional Distribution</h2>
               <p className="text-slate-500">Split a fixed sample size proportionally across multiple styles.</p>
             </div>
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-black uppercase tracking-widest">Total Sample Size</label>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <label className="text-sm font-black uppercase tracking-widest whitespace-nowrap">Total Sample Size</label>
               <input 
                 type="number"
                 value={totalSampleForStyles}
                 onChange={(e) => setTotalSampleForStyles(parseInt(e.target.value) || 0)}
-                className="w-32 bg-slate-50 border-2 border-slate-100 p-2 rounded-xl text-lg font-bold focus:border-primary-500 focus:ring-0 transition-all text-center"
+                className="w-24 md:w-32 bg-slate-50 border-2 border-slate-100 p-2 rounded-xl text-lg font-bold focus:border-primary-500 focus:ring-0 transition-all text-center"
               />
               <button 
                 onClick={() => setTotalSampleForStyles(combinedPlan.sample || 0)}
@@ -362,6 +362,7 @@ export default function AQLCalculator() {
             </div>
           </div>
           
+          <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse mb-4">
             <thead>
               <tr className="bg-slate-50">
@@ -401,6 +402,7 @@ export default function AQLCalculator() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <button onClick={addStyleRow} className="w-full p-3 border-2 border-dashed border-slate-200 hover:border-primary-500 hover:text-primary-500 rounded-xl transition-all font-semibold text-slate-500">
             + Add Style
