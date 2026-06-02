@@ -107,7 +107,6 @@ const ptComponents = {
       );
     },
   },
-  },
   marks: {
     link: ({ children, value }: any) => {
       const href = value?.href || '#';
