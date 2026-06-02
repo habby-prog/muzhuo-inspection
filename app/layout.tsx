@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Logo from './components/Logo'
+import Header from './components/Header'
 
-
-import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -63,29 +61,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  )
-}
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm">
-      <div className="container flex h-20 items-center justify-between mx-auto px-4">
-        <a href="/" className="flex items-center gap-2">
-          <Logo className="h-10 w-auto" />
-        </a>
-        <nav className="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-wider">
-          <Link href="/" className="transition-colors hover:text-primary-600">Home</Link>
-          <Link href="/services" className="transition-colors hover:text-primary-600">Services</Link>
-          <Link href="/aql-calculator" className="transition-colors hover:text-primary-600">AQL Calculator</Link>
-          <Link href="/blog" className="transition-colors hover:text-primary-600">Blog</Link>
-          <Link href="/about" className="transition-colors hover:text-primary-600">About</Link>
-          <Link href="/contact" className="transition-colors hover:text-primary-600">Contact</Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <a href="/order" className="rounded-full bg-primary-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-primary-700 transition-all shadow-md">Book Online</a>
-        </div>
-      </div>
-    </header>
   )
 }
 
