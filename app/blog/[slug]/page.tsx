@@ -104,10 +104,8 @@ const ptComponents = {
     },
 
     'cta-box': ({ value }: { value: any }) => {
-      const t = (value.text || '').replace(/\*\*/g, '').replace(/^→\s*/, '');
-      return (
-        <p className="my-6 text-gray-700">{t}{value.buttonText ? ' \u2192 ' + value.buttonText : ''}<\/p>
-      );
+      const txt = (value.text || '').replace(/\*\*/g, ' \n').replace(/^\u2192\s*/g, '');
+      return <p className="my-4 text-gray-700">{txt}<br/>{value.buttonText}{' '}{value.buttonUrl ? '(link)' : ''}<\/p>;
     },'tip-box': ({ value }: { value: any }) => {
       return (
         <div className="my-6 p-5 rounded-xl flex gap-3 shadow-sm" style={{ backgroundColor: '#F0F7FF', borderLeft: `4px solid ${BLUE}` }}>
