@@ -76,7 +76,8 @@ const ptComponents = {
             />
         </div>
       );
-      table: ({ value }: { value: any }) => {
+    },
+    table: ({ value }: { value: any }) => {
       if (!value?.rows?.length) return null;
       return (
         <div className="overflow-x-auto my-8 rounded-lg border border-gray-200">
