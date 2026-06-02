@@ -76,7 +76,36 @@ const ptComponents = {
             />
         </div>
       );
+      table: ({ value }: { value: any }) => {
+      if (!value?.rows?.length) return null;
+      return (
+        <div className="overflow-x-auto my-8 rounded-lg border border-gray-200">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gradient-to-r from-blue-600 to-blue-500">
+              <tr>
+                {value.rows[0].cells.map((cell: any, i: number) => (
+                  <th key={i} className="px-4 py-3 text-left text-sm font-semibold text-white">
+                    {cell.text || cell}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-100">
+              {value.rows.slice(1).map((row: any, ri: number) => (
+                <tr key={ri} className={ri % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  {row.cells.map((cell: any, ci: number) => (
+                    <td key={ci} className="px-4 py-3 text-sm text-gray-700">
+                      {cell.text || cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
     },
+  },
   },
   marks: {
     link: ({ children, value }: any) => {
