@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-// Helper function to get image URL
+// Hlpr fn: get Sanity image CDN URL
 const getImageUrl = (source: any) => {
     if (!source) return '/placeholder.svg';
     const ref = source.asset._ref;
