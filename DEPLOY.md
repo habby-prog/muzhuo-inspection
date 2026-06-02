@@ -42,3 +42,4 @@ Note: The project was migrated to PayPal as per user preference. Stripe code is 
 
 ---
 Built by Muzhuo Inspection Support.
+- Contact form email backend via Resend
