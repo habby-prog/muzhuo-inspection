@@ -1,11 +1,18 @@
 import { MetadataRoute } from 'next'
 import { client } from './lib/sanity'
+import { SITE_URL } from './lib/site'
 
-async function getBlogSlugs(): Promise<string[]> {
+// 每小时重新生成，保证新发布的文章能及时进 sitemap
+export const revalidate = 3600
+
+async function getBlogEntries(): Promise<{ slug: string; updated: string }[]> {
   try {
-    const query = `*[_type == "post" && defined(slug.current)]{"slug": slug.current}`
-    const slugs = await client.fetch(query)
-    return slugs.map((s: { slug: string }) => s.slug)
+    const query = `*[_type == "post" && defined(slug.current)]{
+      "slug": slug.current,
+      "updated": coalesce(_updatedAt, publishedAt)
+    }`
+    const rows = await client.fetch(query)
+    return rows.filter((r: any) => r.slug)
   } catch (e) {
     console.error('Failed to fetch blog slugs for sitemap:', e)
     return []
@@ -13,66 +20,26 @@ async function getBlogSlugs(): Promise<string[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const domain = process.env.DOMAIN || 'https://muzhuoinspection.com'
-  
-  // Static pages
-  const staticPages = [
-    {
-      url: domain,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 1,
-    },
-    {
-      url: `${domain}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${domain}/services/factory-audit`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${domain}/services/psi`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${domain}/services/cls`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${domain}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    },
-    {
-      url: `${domain}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${domain}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
+  const domain = SITE_URL
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: domain, changeFrequency: 'monthly', priority: 1 },
+    { url: `${domain}/services`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${domain}/services/factory-audit`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${domain}/services/psi`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${domain}/services/cls`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${domain}/blog`, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${domain}/about`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${domain}/contact`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${domain}/privacy`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${domain}/terms`, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  // Dynamic blog posts
-  const blogSlugs = await getBlogSlugs()
-  const blogPages = blogSlugs.map(slug => ({
-    url: `${domain}/blog/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
+  const posts = await getBlogEntries()
+  const blogPages: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${domain}/blog/${p.slug}`,
+    lastModified: p.updated ? new Date(p.updated) : undefined,
+    changeFrequency: 'monthly',
     priority: 0.6,
   }))
 

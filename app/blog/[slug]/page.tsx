@@ -2,6 +2,7 @@ import { client } from '../../lib/sanity';
 import Image from 'next/image';
 import { PortableText } from '@portabletext/react';
 import type { Metadata } from 'next';
+import { SITE_URL } from '../../lib/site';
 
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0] {
@@ -34,10 +35,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: post.description || `Quality control insights for importers`,
       type: 'article',
       publishedTime: post.publishedAt,
-      url: `https://muzhuoinspection.com/blog/${params.slug}`,
+      url: `${SITE_URL}/blog/${params.slug}`,
     },
     robots: { index: true, follow: true },
-    alternates: { canonical: `https://muzhuoinspection.com/blog/${params.slug}` },
+    alternates: { canonical: `${SITE_URL}/blog/${params.slug}` },
   };
 }
 
@@ -52,6 +53,17 @@ const getImageUrl = (source: any) => {
     const [width, height] = dimensions.split('x');
     const extension = ref.split('-')[3];
     return `https://cdn.sanity.io/images/57037go6/production/${ref.replace('image-', '').replace(`-${extension}`, '.'+extension)}?w=800&auto=format`;
+};
+
+// Sanity 自定义区块里的文字有时是富文本数组（span 对象），直接渲染会报
+// "Objects are not valid as a React child"。这里统一拍平成纯文本。
+const toText = (v: any): string => {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number') return String(v);
+  if (Array.isArray(v)) return v.map(toText).join('');
+  if (typeof v === 'object') return toText(v.text ?? v.children ?? '');
+  return '';
 };
 
 const ptComponents = {
@@ -73,7 +85,7 @@ const ptComponents = {
             <thead style={{ background: `linear-gradient(135deg, ${BLUE}, #1a5fa8)` }}>
               <tr>
                 {value.rows[0].cells.map((cell: any, i: number) => (
-                  <th key={i} className="px-4 py-3.5 text-left text-sm font-semibold text-white">{cell.text || cell}</th>
+                  <th key={i} className="px-4 py-3.5 text-left text-sm font-semibold text-white">{toText(cell)}</th>
                 ))}
               </tr>
             </thead>
@@ -81,7 +93,7 @@ const ptComponents = {
               {value.rows.slice(1).map((row: any, ri: number) => (
                 <tr key={ri} className={ri % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   {row.cells.map((cell: any, ci: number) => (
-                    <td key={ci} className="px-4 py-3 text-sm text-gray-700">{cell.text || cell}</td>
+                    <td key={ci} className="px-4 py-3 text-sm text-gray-700">{toText(cell)}</td>
                   ))}
                 </tr>
               ))}
@@ -97,7 +109,7 @@ const ptComponents = {
         <div className="my-6 p-5 rounded-xl border-l-4 flex gap-3" style={{ borderLeftColor: YELLOW, backgroundColor: '#FFFDF0' }}>
           <span className="text-xl flex-shrink-0 mt-0.5">{icon}</span>
           <div className="prose prose-sm max-w-none text-gray-800">
-            {value.text || ''}
+            {toText(value.text)}
           </div>
         </div>
       );
@@ -108,8 +120,8 @@ const ptComponents = {
         <div className="my-6 p-5 rounded-xl flex gap-3 shadow-sm" style={{ backgroundColor: '#F0F7FF', borderLeft: `4px solid ${BLUE}` }}>
           <span className="text-xl flex-shrink-0 mt-0.5">{value.icon || '💡'}</span>
           <div>
-            {value.title && <h4 className="font-bold text-sm mb-1" style={{ color: BLUE }}>{value.title}</h4>}
-            <p className="text-sm text-gray-700">{value.text || ''}</p>
+            {value.title && <h4 className="font-bold text-sm mb-1" style={{ color: BLUE }}>{toText(value.title)}</h4>}
+            <p className="text-sm text-gray-700">{toText(value.text)}</p>
           </div>
         </div>
       );

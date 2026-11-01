@@ -2,19 +2,21 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './components/Header'
+import { SITE_URL } from './lib/site'
 
 
 const inter = Inter({ subsets: ['latin'] })
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Muzhuo Inspection - Professional Quality Control & Factory Audit Services',
   description: 'Expert quality inspection services in China, including Factory Audit, Pre-shipment Inspection (PSI), and Container Loading Supervision (CLS). Reliable, fast, and secure payment.',
   keywords: ['Factory Audit', 'Pre-shipment Inspection', 'PSI', 'Container Loading Supervision', 'CLS', 'Quality Control China', 'Inspection Service'],
   openGraph: {
     title: 'Muzhuo Inspection - Professional Quality Control',
     description: 'Expert inspection services in China. Protecting your global supply chain.',
-    url: 'https://muzhuoinspection.com',
+    url: SITE_URL,
     siteName: 'Muzhuo Inspection',
     locale: 'en_US',
     type: 'website',
@@ -35,7 +37,7 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     "name": "Muzhuo Inspection",
     "description": "Professional quality control and factory audit services in China.",
-    "url": "https://muzhuoinspection.com",
+    "url": SITE_URL,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R522, Building 2, Jiading Innovation Harbor, No. 568 Antuo Road, Anting Town, Jiading District",
