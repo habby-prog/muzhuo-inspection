@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '../lib/site'
 
 export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/terms' },
   title: 'Terms of Service - Muzhuo Inspection',
   description: 'Understand the terms and conditions that govern our relationship with you.',
 }

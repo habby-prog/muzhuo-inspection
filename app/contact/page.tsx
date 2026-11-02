@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '../lib/site'
 import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/contact' },
   title: 'Contact Muzhuo Inspection - Get in Touch',
   description: 'Have questions about our inspection services in China? Contact our team for support.',
 }

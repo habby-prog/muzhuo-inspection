@@ -1,9 +1,11 @@
 
 import type { Metadata } from 'next';
+import { SITE_URL } from '../lib/site'
 import { Briefcase, ShieldCheck, Zap, Globe, Star, Users, ClipboardCheck, Clock } from 'lucide-react';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/about' },
   title: 'About Muzhuo Inspection - Your Trusted China Inspection Partner',
   description: 'Learn more about Muzhuo Inspection, our values, and our commitment to quality control in China.',
 };

@@ -1,7 +1,14 @@
+import type { Metadata } from 'next'
+import { SITE_URL } from '../lib/site'
 
 import { client } from '../lib/sanity';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/blog' },
+}
+
 
 async function getPosts() {
   const query = `*[_type == "post"] | order(publishedAt desc) {

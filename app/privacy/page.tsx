@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '../lib/site'
 
 export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/privacy' },
   title: 'Privacy Policy - Muzhuo Inspection',
   description: 'Your privacy is important to us. Learn how we handle your information.',
 }

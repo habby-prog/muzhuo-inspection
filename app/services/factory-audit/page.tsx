@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '../../lib/site'
 
 export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL + '/services/factory-audit' },
   title: 'Factory Audit China - Muzhuo Inspection',
   description: 'Thorough factory audit services in China. Evaluate your suppliers legitimacy, reliability, and quality standards.',
 }
