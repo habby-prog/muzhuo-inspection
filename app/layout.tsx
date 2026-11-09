@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './components/Header'
+import EmailLink from './components/EmailLink'
 import { SITE_URL } from './lib/site'
 
 
@@ -91,7 +92,7 @@ function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm text-slate-500">
-              <li>info@muzhuoinspection.com</li>
+              <li><EmailLink /></li>
               <li>+86 166 2170 4642 (WhatsApp & WeChat)</li>
             </ul>
           </div>

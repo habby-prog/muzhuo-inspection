@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '../lib/site'
 import ContactForm from './ContactForm'
+import EmailLink from '../components/EmailLink'
 
 export const metadata: Metadata = {
   alternates: { canonical: SITE_URL + '/contact' },
@@ -23,7 +24,7 @@ export default function Contact() {
             <div className="space-y-4 pt-4">
               <div className="flex items-start gap-4">
                 <span className="font-bold w-24 shrink-0">Email:</span>
-                <a href="mailto:info@muzhuoinspection.com" className="text-primary-600 hover:underline">info@muzhuoinspection.com</a>
+                <EmailLink className="text-primary-600 hover:underline" />
               </div>
               <div className="flex items-start gap-4">
                 <span className="font-bold w-24 shrink-0">Phone:</span>

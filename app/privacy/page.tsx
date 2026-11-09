@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '../lib/site'
+import EmailLink from '../components/EmailLink'
 
 export const metadata: Metadata = {
   alternates: { canonical: SITE_URL + '/privacy' },
@@ -44,7 +45,7 @@ export default function PrivacyPolicy() {
 
           <h2 className="text-2xl font-bold mt-8 mb-4">6. Contact Us</h2>
           <p>If you have any questions or concerns about our Privacy Policy, please contact us at:</p>
-          <p className="font-bold">Email: info@muzhuoinspection.com</p>
+          <p className="font-bold">Email: <EmailLink /></p>
           <p className="font-bold">Phone: +86 166 2170 4642</p>
         </div>
       </div>
