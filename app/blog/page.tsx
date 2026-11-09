@@ -6,7 +6,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
+  title: 'Quality Inspection Blog | China Sourcing & Pre-Shipment Guides',
+  description:
+    'Practical guides on pre-shipment inspection, factory audits and container loading supervision in China, written for importers in Mexico, South America and beyond.',
   alternates: { canonical: SITE_URL + '/blog' },
+  openGraph: {
+    title: 'Quality Inspection Blog | Muzhuo Inspection',
+    description:
+      'Practical inspection guides for importers sourcing from China: AQL sampling, defect classification, NOM labeling and loading supervision.',
+    url: SITE_URL + '/blog',
+    type: 'website',
+  },
 }
 
 

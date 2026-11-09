@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import OrderForm from './OrderForm'
+
+export const metadata: Metadata = {
+  title: 'Book an Inspection | Muzhuo Inspection',
+  description: 'Request a factory audit, pre-shipment inspection or container loading supervision in China.',
+  robots: { index: false, follow: true },
+}
 
 export default function OrderPage() {
   return (

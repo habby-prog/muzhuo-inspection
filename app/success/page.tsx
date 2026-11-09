@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import { CheckCircle2 } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Order Confirmed | Muzhuo Inspection',
+  robots: { index: false, follow: false },
+}
 
 export default function SuccessPage() {
   return (
