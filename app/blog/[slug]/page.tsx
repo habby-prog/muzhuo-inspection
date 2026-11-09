@@ -12,10 +12,21 @@ async function getPost(slug: string) {
     "authorName": author->name,
     "authorImage": author->image,
     publishedAt,
+    _updatedAt,
     description
   }`;
   const post = await client.fetch(query, { slug });
   return post;
+}
+
+async function getRelatedPosts(slug: string) {
+  const query = `*[_type == "post" && slug.current != $slug] | order(publishedAt desc) [0...3] {
+    title,
+    "slug": slug.current,
+    mainImage,
+    publishedAt
+  }`;
+  return await client.fetch(query, { slug });
 }
 
 export async function generateStaticParams() {
@@ -201,13 +212,26 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const post = await getPost(params.slug);
   if (!post) return <div>Post not found</div>;
 
+  const related = await getRelatedPosts(params.slug);
+  const pageUrl = `${SITE_URL}/blog/${params.slug}`;
   const articleJsonLd = {
     '@context': 'https://schema.org', '@type': 'Article',
-    headline: post.title, datePublished: post.publishedAt,
-    author: { '@type': 'Person', name: post.authorName || 'Muzhuo Inspection' },
-    publisher: { '@type': 'Organization', name: 'Muzhuo Inspection', url: 'https://muzhuoinspection.com' },
+    headline: post.title,
+    datePublished: post.publishedAt,
+    dateModified: post._updatedAt || post.publishedAt,
+    author: { '@type': 'Organization', name: 'Muzhuo Inspection', url: SITE_URL },
+    publisher: { '@type': 'Organization', name: 'Muzhuo Inspection', url: SITE_URL },
     description: post.description || 'Quality control insights for importers',
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://muzhuoinspection.com/blog/${params.slug}` },
+    image: post.mainImage ? [getImageUrl(post.mainImage)] : undefined,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: pageUrl },
+    ],
   };
 
   return (
@@ -224,6 +248,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </nav>
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
         <div className="mb-6">
           <div className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4" style={{ backgroundColor: `${YELLOW}40`, color: '#8B7A20' }}>
@@ -249,6 +274,28 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="mx-auto" style={{ maxWidth: '720px' }}>
           {post.body && <PortableText value={post.body} components={ptComponents} />}
         </div>
+
+        {related && related.length > 0 && (
+          <section className="mx-auto mt-16 border-t border-gray-200 pt-10" style={{ maxWidth: '720px' }} aria-labelledby="related-heading">
+            <h2 id="related-heading" className="text-2xl font-bold mb-6" style={{ color: BLUE }}>
+              Related reading
+            </h2>
+            <ul className="space-y-4">
+              {related.map((r: any) => (
+                <li key={r.slug}>
+                  <a href={`/blog/${r.slug}`} className="block rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+                    <span className="block font-semibold text-gray-800">{r.title}</span>
+                    {r.publishedAt && (
+                      <span className="mt-1 block text-sm text-gray-400">
+                        {new Date(r.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </div>
   );
