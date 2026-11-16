@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import type { Metadata } from 'next'
-import { SITE_URL } from '../lib/site'
+import { pageMetadata } from '../lib/meta'
 import { Factory, Search, Truck } from 'lucide-react'
 
-export const metadata: Metadata = {
-  alternates: { canonical: SITE_URL + '/services' },
-  title: 'Our Inspection Services - Muzhuo Inspection',
-  description: 'Comprehensive range of inspection services in China, including Factory Audit, Pre-shipment Inspection, and Container Loading Supervision.',
-}
+export const metadata: Metadata = pageMetadata(
+  '/services',
+  'Our Inspection Services - Muzhuo Inspection',
+  'Comprehensive range of inspection services in China, including Factory Audit, Pre-shipment Inspection, and Container Loading Supervision.',
+)
 
 export default function ServicesPage() {
   return (

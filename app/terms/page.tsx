@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { SITE_URL } from '../lib/site'
+import { pageMetadata } from '../lib/meta'
 
-export const metadata: Metadata = {
-  alternates: { canonical: SITE_URL + '/terms' },
-  title: 'Terms of Service - Muzhuo Inspection',
-  description: 'Understand the terms and conditions that govern our relationship with you.',
-}
+export const metadata: Metadata = pageMetadata(
+  '/terms',
+  'Terms of Service - Muzhuo Inspection',
+  'Understand the terms and conditions that govern our relationship with you.',
+)
 
 export default function TermsOfService() {
   return (

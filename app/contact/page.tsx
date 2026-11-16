@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
-import { SITE_URL } from '../lib/site'
+import { pageMetadata } from '../lib/meta'
 import ContactForm from './ContactForm'
 import EmailLink from '../components/EmailLink'
 
-export const metadata: Metadata = {
-  alternates: { canonical: SITE_URL + '/contact' },
-  title: 'Contact Muzhuo Inspection - Get in Touch',
-  description: 'Have questions about our inspection services in China? Contact our team for support.',
-}
+export const metadata: Metadata = pageMetadata(
+  '/contact',
+  'Contact Muzhuo Inspection - Get in Touch',
+  'Have questions about our inspection services in China? Contact our team for support.',
+)
 
 export default function Contact() {
   return (

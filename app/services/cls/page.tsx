@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { SITE_URL } from '../../lib/site'
+import { pageMetadata } from '../../lib/meta'
 
-export const metadata: Metadata = {
-  alternates: { canonical: SITE_URL + '/services/cls' },
-  title: 'Container Loading Supervision (CLS) China - Muzhuo Inspection',
-  description: 'Secure your goods and ensure correct loading with our CLS services. We supervise the loading process and check the container condition.',
-}
+export const metadata: Metadata = pageMetadata(
+  '/services/cls',
+  'Container Loading Supervision (CLS) China - Muzhuo Inspection',
+  'Secure your goods and ensure correct loading with our CLS services. We supervise the loading process and check the container condition.',
+)
 
 export default function CLS() {
   return (

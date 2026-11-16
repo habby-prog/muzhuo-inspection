@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { SITE_URL } from '../../lib/site'
+import { pageMetadata } from '../../lib/meta'
 
-export const metadata: Metadata = {
-  alternates: { canonical: SITE_URL + '/services/psi' },
-  title: 'Pre-shipment Inspection (PSI) China - Muzhuo Inspection',
-  description: 'Thorough quality control before your products leave the factory. PSI ensures 100% compliance with your requirements.',
-}
+export const metadata: Metadata = pageMetadata(
+  '/services/psi',
+  'Pre-shipment Inspection (PSI) China - Muzhuo Inspection',
+  'Thorough quality control before your products leave the factory. PSI ensures 100% compliance with your requirements.',
+)
 
 export default function PSI() {
   return (
