@@ -56,6 +56,11 @@ export default function Home() {
               link="/services/cls"
             />
           </div>
+          <p className="mt-10 text-slate-500">
+            Working out the sample size before you book? Read the{' '}
+            <a href="/aql-calculator-guide" className="text-primary-600 underline font-semibold">AQL sampling guide</a>{' '}
+            or open the <a href="/aql-calculator" className="text-primary-600 underline font-semibold">AQL calculator</a>.
+          </p>
         </div>
       </section>
 

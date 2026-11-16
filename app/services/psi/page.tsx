@@ -32,6 +32,12 @@ export default function PSI() {
             <p className="mb-4">*Price: $199 USD (Standard PSI)</p>
             <a href="/order?service=psi" className="inline-block bg-primary-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-primary-700">Book PSI Now</a>
           </div>
+          <p>
+            Sampling follows ANSI/ASQ Z1.4 and ISO 2859-1: lot size and inspection level set the sample
+            size, and each defect class is judged against its own accept and reject numbers. For the
+            plan behind those numbers, see the <a href="/aql-calculator-guide" className="underline hover:text-primary-600">AQL sampling guide</a>{' '}
+            or run a lot through the <a href="/aql-calculator" className="underline hover:text-primary-600">AQL calculator</a>.
+          </p>
           <p className="text-sm text-slate-600 mt-4">For bulk orders or long-term cooperation, please <a href="/contact" className="underline hover:text-primary-600">Contact Us</a> for a custom quote.</p>
         </div>
       </div>
