@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { PortableText } from '@portabletext/react';
 import type { Metadata } from 'next';
 import { SITE_URL } from '../../lib/site';
+import { getBlogSeo } from '../../lib/blog-seo';
 
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0] {
@@ -38,12 +39,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPost(params.slug);
   if (!post) return { title: 'Post Not Found - Muzhuo Inspection' };
+  const seo = getBlogSeo(params.slug);
+  const metaTitle = seo?.metaTitle || post.title;
+  const metaDescription = seo?.metaDescription || post.description || `Read about ${post.title} - Insights from Muzhuo Inspection on quality control, pre-shipment inspection, and factory audit services in China.`;
   return {
-    title: `${post.title} | Muzhuo Inspection Blog`,
-    description: post.description || `Read about ${post.title} - Insights from Muzhuo Inspection on quality control, pre-shipment inspection, and factory audit services in China.`,
+    title: `${metaTitle} | Muzhuo Inspection Blog`,
+    description: metaDescription,
     openGraph: {
-      title: post.title,
-      description: post.description || `Quality control insights for importers`,
+      title: metaTitle,
+      description: metaDescription,
       type: 'article',
       publishedTime: post.publishedAt,
       url: `${SITE_URL}/blog/${params.slug}`,
@@ -54,6 +58,62 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 const BLUE = '#2B7FD8';
+
+// --- FAQ extraction for FAQPage JSON-LD ---
+// Several articles already carry a "Frequently asked questions" section inside
+// the Sanity body. Rather than duplicating that text, read the question/answer
+// pairs straight from the PortableText blocks so the structured data always
+// matches what is on the page.
+
+const stripFaqMark = (text: string) => text.replace(/^[❓❔?]+\s*/, '').trim();
+
+function blockText(block: any): string {
+  if (!block || block._type !== 'block' || !Array.isArray(block.children)) return '';
+  return block.children.map((c: any) => c.text || '').join('').trim();
+}
+
+function extractBodyFaqs(body: any[]): { q: string; a: string }[] {
+  if (!Array.isArray(body)) return [];
+  const out: { q: string; a: string }[] = [];
+  let inFaq = false;
+  let pending: string | null = null;
+  for (const block of body) {
+    if (!block || block._type !== 'block') continue;
+    const style = block.style || 'normal';
+    const text = blockText(block);
+    if (style === 'h2') {
+      inFaq = /^(faqs?|frequently asked questions|preguntas frecuentes)$/i.test(text.replace(/[:.]$/, ''));
+      pending = null;
+      continue;
+    }
+    if (!inFaq || !text) continue;
+    if (style === 'h3') {
+      pending = stripFaqMark(text);
+      continue;
+    }
+    if (/^[❓❔]/.test(text)) {
+      pending = stripFaqMark(text);
+      continue;
+    }
+    if (pending) {
+      out.push({ q: pending, a: text });
+      pending = null;
+    }
+  }
+  return out;
+}
+
+function buildFaqItems(body: any[], extra?: { q: string; a: string }[]) {
+  const seen = new Set<string>();
+  const items: { q: string; a: string }[] = [];
+  for (const item of [...extractBodyFaqs(body), ...(extra || [])]) {
+    const key = item.q.toLowerCase().slice(0, 60);
+    if (!item.q || !item.a || seen.has(key)) continue;
+    seen.add(key);
+    items.push(item);
+  }
+  return items.slice(0, 12);
+}
 const YELLOW = '#F4D758';
 const RED = '#E84A5F';
 
@@ -213,10 +273,22 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   if (!post) return <div>Post not found</div>;
 
   const related = await getRelatedPosts(params.slug);
+  const seo = getBlogSeo(params.slug);
+  const heading = seo?.h1 || post.title;
+  const faqItems = seo ? buildFaqItems(post.body, seo.faqs) : [];
   const pageUrl = `${SITE_URL}/blog/${params.slug}`;
+  const faqJsonLd = faqItems.length >= 2 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  } : null;
   const articleJsonLd = {
     '@context': 'https://schema.org', '@type': 'Article',
-    headline: post.title,
+    headline: heading,
     datePublished: post.publishedAt,
     dateModified: post._updatedAt || post.publishedAt,
     author: { '@type': 'Organization', name: 'Muzhuo Inspection', url: SITE_URL },
@@ -249,18 +321,26 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+        {faqJsonLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+        )}
 
         <div className="mb-6">
           <div className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4" style={{ backgroundColor: `${YELLOW}40`, color: '#8B7A20' }}>
             Blog
           </div>
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl leading-tight" style={{ color: BLUE }}>
-            {post.title}
+            {heading}
           </h1>
           {post.publishedAt && (
             <p className="mt-3 text-sm text-gray-400">
               Published {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               {post.authorName && ` by ${post.authorName}`}
+            </p>
+          )}
+          {seo?.lead && (
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              {seo.lead}
             </p>
           )}
         </div>
@@ -274,6 +354,40 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="mx-auto" style={{ maxWidth: '720px' }}>
           {post.body && <PortableText value={post.body} components={ptComponents} />}
         </div>
+
+        {seo?.faqs && seo.faqs.length > 0 && (
+          <section className="mx-auto mt-14 border-t border-gray-200 pt-10" style={{ maxWidth: '720px' }} aria-labelledby="extra-faq-heading">
+            <h2 id="extra-faq-heading" className="text-2xl font-bold mb-6" style={{ color: BLUE }}>
+              {seo.faqHeading || 'Frequently asked questions'}
+            </h2>
+            <div className="space-y-6">
+              {seo.faqs.map((f) => (
+                <div key={f.q}>
+                  <h3 className="text-lg font-bold mb-2" style={{ color: '#1f2937' }}>{f.q}</h3>
+                  <p className="text-gray-700 leading-relaxed">{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {seo?.links && seo.links.length > 0 && (
+          <section className="mx-auto mt-14 border-t border-gray-200 pt-10" style={{ maxWidth: '720px' }} aria-labelledby="next-steps-heading">
+            <h2 id="next-steps-heading" className="text-2xl font-bold mb-6" style={{ color: BLUE }}>
+              Continue reading
+            </h2>
+            <ul className="space-y-4">
+              {seo.links.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="block rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+                    <span className="block font-semibold" style={{ color: BLUE }}>{l.label}</span>
+                    <span className="mt-1 block text-sm text-gray-500">{l.note}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {related && related.length > 0 && (
           <section className="mx-auto mt-16 border-t border-gray-200 pt-10" style={{ maxWidth: '720px' }} aria-labelledby="related-heading">
