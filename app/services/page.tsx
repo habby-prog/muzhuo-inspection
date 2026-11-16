@@ -46,6 +46,15 @@ export default function ServicesPage() {
           />
         </div>
 
+        <div className="mt-14 rounded-2xl border border-slate-100 bg-slate-50 p-8 text-center">
+          <p className="text-lg font-bold mb-2">Shipping a full container and want the loading watched?</p>
+          <p className="text-slate-600 mb-4">
+            See the full scope of{' '}
+            <a href="/container-loading-supervision" className="text-primary-600 underline font-semibold">container loading supervision in China</a>
+            {' '}— container condition, loading sequence, securing, seal and the photo report.
+          </p>
+        </div>
+
         <div className="relative mt-20 rounded-3xl overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image 

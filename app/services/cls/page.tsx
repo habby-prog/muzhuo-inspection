@@ -32,6 +32,11 @@ export default function CLS() {
             <p className="mb-4">*Price: $149 USD (Standard CLS)</p>
             <a href="/order?service=cls" className="inline-block bg-primary-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-primary-700">Book CLS Now</a>
           </div>
+          <p>
+            For the full scope of the service — container condition, loading sequence, securing and the
+            seal record — see{' '}
+            <a href="/container-loading-supervision" className="underline hover:text-primary-600">container loading supervision in China</a>.
+          </p>
           <p className="text-sm text-slate-600 mt-4">For bulk orders or long-term cooperation, please <a href="/contact" className="underline hover:text-primary-600">Contact Us</a> for a custom quote.</p>
         </div>
       </div>

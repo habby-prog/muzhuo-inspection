@@ -51,9 +51,9 @@ export default function Home() {
             />
             <ServiceCard 
               icon={<Truck className="w-16 h-16 text-primary-600 mb-4" />}
-              title="Loading Supervision"
-              description="Final loading and container sealing. We ensure the quantity is right and the goods are packed for survival."
-              link="/services/cls"
+              title="Container Loading Supervision"
+              description="China container loading supervision: quantity, container condition, securing and seal, photographed before the doors close."
+              link="/container-loading-supervision"
             />
           </div>
           <p className="mt-10 text-slate-500">
