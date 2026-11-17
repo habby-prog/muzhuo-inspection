@@ -397,6 +397,22 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </section>
         )}
 
+        <section className="mx-auto mt-16 rounded-2xl border border-slate-200 bg-slate-50 p-8" style={{ maxWidth: '720px' }} aria-labelledby="services-cta-heading">
+          <h2 id="services-cta-heading" className="text-xl font-bold mb-3" style={{ color: BLUE }}>
+            Need this checked before it ships?
+          </h2>
+          <p className="text-slate-600 mb-5 text-sm leading-6">
+            We inspect at the factory and supervise loading across mainland China. Reports include dated
+            photos and are issued in English, Chinese or Spanish, normally within 24 hours.
+          </p>
+          <ul className="grid gap-3 sm:grid-cols-2 text-sm font-semibold">
+            <li><a href="/services/psi" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-primary-500" style={{ color: BLUE }}>Pre-shipment inspection (PSI) →</a></li>
+            <li><a href="/services/factory-audit" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-primary-500" style={{ color: BLUE }}>Factory audit →</a></li>
+            <li><a href="/container-loading-supervision" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-primary-500" style={{ color: BLUE }}>Container loading supervision →</a></li>
+            <li><a href="/sample-report" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-primary-500" style={{ color: BLUE }}>Sample inspection report →</a></li>
+          </ul>
+        </section>
+
         {related && related.length > 0 && (
           <section className="mx-auto mt-16 border-t border-gray-200 pt-10" style={{ maxWidth: '720px' }} aria-labelledby="related-heading">
             <h2 id="related-heading" className="text-2xl font-bold mb-6" style={{ color: BLUE }}>
