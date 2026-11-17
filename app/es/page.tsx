@@ -82,8 +82,8 @@ export default function SpanishHome() {
             Informe con fotos fechadas, normalmente en 24 horas, en chino, inglés o español.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-10">
-            <a href="#contacto" className="rounded-full bg-primary-600 px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-primary-700 text-center">
-              Solicitar cotización
+            <a href="https://wa.me/8616621704642?text=Hola%2C%20necesito%20una%20inspecci%C3%B3n%20en%20China" className="rounded-full bg-[#25D366] px-8 py-4 font-black uppercase tracking-widest text-sm text-slate-900 hover:brightness-95 text-center">
+              WhatsApp
             </a>
             <a href="/sample-report" className="rounded-full border border-white/40 px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-white/10 text-center">
               Ver informes de muestra
@@ -158,11 +158,11 @@ export default function SpanishHome() {
             normalmente el mismo día.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
+            <a href="https://wa.me/8616621704642?text=Hola%2C%20necesito%20una%20inspecci%C3%B3n%20en%20China" className="rounded-full bg-[#25D366] px-8 py-4 font-bold text-center text-slate-900 hover:brightness-95">
+              WhatsApp: +86 166 2170 4642
+            </a>
             <a href="mailto:info@muzhuoinspection.com?subject=Consulta%20de%20inspecci%C3%B3n" className="rounded-full bg-primary-600 px-8 py-4 font-bold text-center hover:bg-primary-700">
               info@muzhuoinspection.com
-            </a>
-            <a href="/sample-report" className="rounded-full border border-white/40 px-8 py-4 font-bold text-center hover:bg-white/10">
-              Pedir una muestra
             </a>
           </div>
         </div>
