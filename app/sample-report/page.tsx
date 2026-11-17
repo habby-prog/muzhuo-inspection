@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '../lib/meta'
 import { SITE_URL } from '../lib/site'
+import SampleRequestForm from './SampleRequestForm'
 
 export const metadata: Metadata = pageMetadata(
   '/sample-report',
@@ -171,20 +172,13 @@ export default function SampleReport() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 mt-12">
-            <h2 className="text-2xl font-bold mb-3">Request the full sample, with photo pages</h2>
-            <p className="text-slate-600 mb-5">
-              Tell us your product category — textiles, steel, electronics or food — and we will send the
-              closest sample report. No newsletter, no sales sequence.
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold mb-3">Other categories: sample by email</h2>
+            <p className="text-slate-600 mb-6">
+              Electronics, factory assessment, industrial goods and ceramic reports are not published
+              here. Tell us the category and we will email the matching sample with its photo pages.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a href="/contact?subject=report-sample" className="rounded-full bg-primary-600 px-6 py-3 font-bold text-white text-center hover:bg-primary-700">
-                Request the full sample
-              </a>
-              <a href="/case-studies" className="rounded-full border border-slate-300 px-6 py-3 font-bold text-center hover:bg-white">
-                See case studies
-              </a>
-            </div>
+            <SampleRequestForm />
           </div>
         </div>
       </section>
