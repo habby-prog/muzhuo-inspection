@@ -63,6 +63,31 @@ export default function SampleReport() {
 
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-3xl">
+          <h2 className="text-3xl font-bold mb-4">Download a real, anonymised sample</h2>
+          <p className="text-slate-600 mb-8">
+            Two actual reports with client and supplier details removed. Every page carries a SAMPLE
+            mark; prices, order numbers and factory identifiers have been replaced.
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 mb-14">
+            <a href="/samples/MUZHUO-Sample-Clothing-Inspection.pdf" className="block rounded-2xl border border-slate-200 overflow-hidden hover:border-primary-500 transition-colors">
+              <img src="/samples/MUZHUO-Sample-Clothing-Inspection-p1.jpg" alt="Clothing inspection sample report cover" className="w-full h-auto" />
+              <div className="p-5">
+                <p className="text-xs uppercase tracking-widest text-primary-600 mb-1">Textiles</p>
+                <h3 className="font-bold text-lg">Clothing inspection report</h3>
+                <p className="text-sm text-slate-500 mt-1">8 pages · PDF · 3 MB</p>
+              </div>
+            </a>
+            <a href="/samples/MUZHUO-Sample-Loading-Supervision.pdf" className="block rounded-2xl border border-slate-200 overflow-hidden hover:border-primary-500 transition-colors">
+              <img src="/samples/MUZHUO-Sample-Loading-Supervision-p1.jpg" alt="Container loading supervision sample report cover" className="w-full h-auto" />
+              <div className="p-5">
+                <p className="text-xs uppercase tracking-widest text-primary-600 mb-1">Loading supervision</p>
+                <h3 className="font-bold text-lg">Container loading supervision report</h3>
+                <p className="text-sm text-slate-500 mt-1">8 pages · PDF · 8 MB</p>
+              </div>
+            </a>
+          </div>
+
+          <h2 className="text-2xl font-bold mb-4">Report structure, page by page</h2>
           <div className="border border-slate-200 rounded-2xl overflow-hidden mb-12">
             <div className="bg-slate-900 text-white px-6 py-5">
               <p className="text-xs uppercase tracking-widest text-slate-400">Muzhuo Inspection</p>
