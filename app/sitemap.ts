@@ -32,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${domain}/aql-calculator-guide`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${domain}/blog`, changeFrequency: 'weekly', priority: 0.6 },
     { url: `${domain}/case-studies`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${domain}/sample-report`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${domain}/about`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${domain}/contact`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${domain}/privacy`, changeFrequency: 'yearly', priority: 0.3 },

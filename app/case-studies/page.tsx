@@ -108,8 +108,8 @@ export default function CaseStudies() {
               classification, photo pages — is available on request, matched to your product category.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="/contact?subject=report-sample" className="rounded-full bg-primary-600 px-6 py-3 font-bold text-white text-center hover:bg-primary-700">
-                Request a sample report
+              <a href="/sample-report" className="rounded-full bg-primary-600 px-6 py-3 font-bold text-white text-center hover:bg-primary-700">
+                See a sample report
               </a>
               <a href="/services" className="rounded-full border border-slate-300 px-6 py-3 font-bold text-center hover:bg-white">
                 See inspection services

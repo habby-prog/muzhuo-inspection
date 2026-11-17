@@ -88,6 +88,7 @@ function Footer() {
               <li><a href="/services/psi">Pre-shipment Inspection</a></li>
               <li><a href="/container-loading-supervision">Container Loading Supervision</a></li>
               <li><a href="/case-studies">Case Studies</a></li>
+              <li><a href="/sample-report">Sample Report</a></li>
             </ul>
           </div>
           <div>
