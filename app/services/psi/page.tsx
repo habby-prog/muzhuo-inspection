@@ -15,7 +15,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'When should I book a PSI?',
-    a: 'Book when production is finished and at least 80% of the goods are packed. Inspecting earlier means you are judging a partial lot; inspecting later means the goods may already be in a container and corrections become expensive. The practical rule is to book two to three days before the planned loading date so there is still time to rework if the lot fails.',
+    a: 'Book when production is finished and at least 80% of the goods are packed. Inspecting earlier means you are judging a partial lot; inspecting later means the goods may already be in a container and corrections become expensive. In practice, book one to three days before the planned loading date so there is still time to rework if the lot fails.',
   },
   {
     q: 'Do you check every single piece?',
@@ -27,7 +27,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'Is the report in Chinese or English?',
-    a: 'The report is issued with photo evidence and can be produced in Chinese, English, or both in the same document. Bilingual reports are the normal choice when the buyer and the factory need to read the same findings, and they avoid arguments caused by a translated summary that says something different from the original.',
+    a: 'The report is issued with photo evidence and can be produced in Chinese, English, or both in the same document. Bilingual reports are the normal choice when the buyer and the factory need to read the same findings, and they avoid arguments caused by a translated summary that says something different from the original. Reports are normally issued within 24 hours of the inspection.',
   },
   {
     q: 'Do you inspect outside China?',
@@ -205,14 +205,14 @@ export default function PSI() {
               The report records what was inspected, how many pieces were drawn, which defects were
               found and how they were classified, with dated photographs of the actual goods, the
               defect close-ups, the packing, the labels and the shipping marks. Findings are written
-              as observations with evidence, not as adjectives. Reports can be issued in Chinese,
-              English, or both in one document, so the buyer and the factory read the same thing.
+              as observations with evidence, not as adjectives. Reports are normally issued within 24
+              hours of the inspection, and can be written in Chinese, English, or both in one document, so the buyer and the factory read the same thing.
             </p>
 
             <h2 className="text-2xl font-bold pt-4">Where we inspect</h2>
             <p>
-              We inspect inside mainland China only. That covers the main manufacturing provinces and
-              the industrial belts around them. If your supplier is outside China, this service is not
+              We inspect anywhere in mainland China — the main manufacturing belts and the more remote
+              provinces alike. If your supplier is outside China, this service is not
               available; if the goods are in China but the supplier is a trading company, we inspect at
               the site where the goods actually are and record whose premises it is.
             </p>
@@ -227,6 +227,12 @@ export default function PSI() {
             </p>
 
             <h2 className="text-2xl font-bold pt-4">What to send when you book</h2>
+            <p>
+              Bookings are normally made one to three days ahead of the intended inspection date, which
+              leaves time to confirm the slot, assign the inspector and tell the factory who is coming.
+              Sites in remote areas are attended too; send the full address with the booking and any
+              travel arrangement is confirmed in the quotation.
+            </p>
             <ul className="list-disc pl-8 space-y-2">
               <li>Product specification, approved sample photos and your defect requirements</li>
               <li>Purchase order and packing list, including carton dimensions and weight</li>

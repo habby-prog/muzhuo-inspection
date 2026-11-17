@@ -212,8 +212,8 @@ export default function FactoryAudit() {
             <p>
               The report contains site and entity details, a company profile, the audit findings by
               section, the photo appendix with dated images, and a summary that states the auditor's
-              conclusion and the limits of what was verified. It can be issued in Chinese, English, or
-              both in one document. Photos are part of the report, not decoration: they are the
+              conclusion and the limits of what was verified. Reports are normally issued within 24
+              hours of the audit, and can be written in Chinese, English, or both in one document. Photos are part of the report, not decoration: they are the
               evidence behind each finding.
             </p>
 
@@ -227,12 +227,17 @@ export default function FactoryAudit() {
 
             <h2 className="text-2xl font-bold pt-4">Where we audit</h2>
             <p>
-              Inside mainland China only. We do not currently provide audits outside China. If your
-              supplier is in China, we can visit the site; if production is split across several
-              factories, each site is scoped and quoted separately.
+              Anywhere in mainland China — the main industrial belts and the more remote provinces
+              alike. We do not currently provide audits outside China. If production is split across
+              several factories, each site is scoped and quoted separately.
             </p>
 
             <h2 className="text-2xl font-bold pt-4">What to send when you book</h2>
+            <p>
+              Audits are normally booked one to three days ahead, so the site can be confirmed and the
+              auditor assigned. Remote sites are attended too; send the full address and any travel
+              arrangement is confirmed in the quotation.
+            </p>
             <ul className="list-disc pl-8 space-y-2">
               <li>The supplier's registered name, address and contact</li>
               <li>The product and process you intend to buy, and the expected order volume</li>
