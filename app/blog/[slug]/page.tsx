@@ -2,7 +2,8 @@ import { client } from '../../lib/sanity';
 import Image from 'next/image';
 import { PortableText } from '@portabletext/react';
 import type { Metadata } from 'next';
-import { SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site'
+import { isSpanishSlug } from '../../lib/slug-lang';
 import { getBlogSeo } from '../../lib/blog-seo';
 
 async function getPost(slug: string) {
@@ -42,6 +43,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const seo = getBlogSeo(params.slug);
   const metaTitle = seo?.metaTitle || post.title;
   const metaDescription = seo?.metaDescription || post.description || `Read about ${post.title} - Insights from Muzhuo Inspection on quality control, pre-shipment inspection, and factory audit services in China.`;
+  const isEs = isSpanishSlug(params.slug);
+  const url = `${SITE_URL}/blog/${params.slug}`;
   return {
     title: `${metaTitle} | Muzhuo Inspection Blog`,
     description: metaDescription,
@@ -50,10 +53,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: metaDescription,
       type: 'article',
       publishedTime: post.publishedAt,
-      url: `${SITE_URL}/blog/${params.slug}`,
+      url,
+      locale: isEs ? 'es_MX' : 'en_US',
     },
     robots: { index: true, follow: true },
-    alternates: { canonical: `${SITE_URL}/blog/${params.slug}` },
+    alternates: { canonical: url, languages: isEs ? { es: url, 'x-default': url } : { en: url, 'x-default': url } },
   };
 }
 
@@ -277,6 +281,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const heading = seo?.h1 || post.title;
   const faqItems = seo ? buildFaqItems(post.body, seo.faqs) : [];
   const pageUrl = `${SITE_URL}/blog/${params.slug}`;
+  const isEs = isSpanishSlug(params.slug);
   const faqJsonLd = faqItems.length >= 2 ? {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -308,6 +313,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   return (
     <div className="bg-white px-6 py-32 lg:px-8">
+      {isEs && (
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.lang='es'" }} />
+      )}
       <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
         <nav className="flex mb-8 text-sm text-gray-400" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-2">

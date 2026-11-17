@@ -101,6 +101,52 @@ export default function CaseStudies() {
             </div>
           </article>
 
+          <article className="mb-16">
+            <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 03 · Food export</p>
+            <h2 className="text-3xl font-bold mb-6">Canned food for Zanzibar: dates and labels checked before the container</h2>
+            <div className="prose max-w-none text-slate-700 space-y-4">
+              <p>
+                A food exporter needed a pre-export inspection for a full container of canned goods
+                bound for Zanzibar. The buyer's concern was not the recipe but the paperwork: production
+                and expiry dates, the label language, the carton marks and the condition of the cans.
+              </p>
+              <p>
+                The inspector checked the production and expiry dates stamped on the cans against the
+                declared batch, verified that the labels carried the required origin and ingredient
+                information, and looked for dented seams, rust and leaking cans across the sample.
+                Cartons were checked for crushing and for marks that matched the packing list.
+              </p>
+              <p>
+                No critical or major defect was found. The report recorded the batch codes, the date
+                markings and the carton condition with photographs, so the file could be used in the
+                export documentation pack without a second visit.
+              </p>
+            </div>
+          </article>
+
+          <article className="mb-16">
+            <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 04 · Fabric loading</p>
+            <h2 className="text-3xl font-bold mb-6">Fabric rolls loaded on a truck, not a container</h2>
+            <div className="prose max-w-none text-slate-700 space-y-4">
+              <p>
+                Not every shipment leaves in a container. A fabric supplier was sending 17 rolls,
+                just over a thousand metres, by truck to a consolidator. The buyer wanted the roll
+                count, the length per roll and the loading itself verified before the truck left.
+              </p>
+              <p>
+                Each roll was counted and checked against the packing list, the roll length was read
+                from the label and recorded, and the outer wrap was inspected for cuts, dirt and water
+                damage. The supervisor then watched the loading, checked that the rolls were not
+                compressed or dragged across the truck bed, and photographed the secured load.
+              </p>
+              <p>
+                The tally and the condition record were issued the same day. When the shipment reached
+                the consolidator, the buyer already had a dated record of what left the factory and in
+                what condition.
+              </p>
+            </div>
+          </article>
+
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8">
             <h2 className="text-2xl font-bold mb-3">Want to see what a report looks like?</h2>
             <p className="text-slate-600 mb-5">
