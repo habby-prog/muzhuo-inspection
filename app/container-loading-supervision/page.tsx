@@ -257,8 +257,8 @@ export default function ContainerLoadingSupervision() {
           <h2 className="text-2xl font-bold mb-4">Related services and reading</h2>
           <ul className="space-y-2">
             <li>
-              <a href="/services/cls" className="text-primary-600 underline">Container loading supervision (service page and price)</a>{' '}
-              — the standard package and how to book it.
+              <a href="/order?service=cls" className="text-primary-600 underline">Book container loading supervision</a>{' '}
+              — check the current price and reserve a loading slot.
             </li>
             <li>
               <a href="/services/psi" className="text-primary-600 underline">Pre-shipment inspection</a>{' '}

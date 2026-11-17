@@ -7,6 +7,8 @@ const nextConfig = {
       { source: '/contact.html', destination: '/contact', permanent: true },
       { source: '/contact_us.html', destination: '/contact', permanent: true },
       { source: '/contact-us', destination: '/contact', permanent: true },
+      // CLS 两页关键词重叠，合并到长页，避免互相抢排名
+      { source: '/services/cls', destination: '/container-loading-supervision', permanent: true },
     ]
   },
   images: {

@@ -86,7 +86,7 @@ function Footer() {
             <ul className="space-y-2 text-sm text-slate-500">
               <li><a href="/services/factory-audit">Factory Audit</a></li>
               <li><a href="/services/psi">Pre-shipment Inspection</a></li>
-              <li><a href="/services/cls">Container Loading Supervision</a></li>
+              <li><a href="/container-loading-supervision">Container Loading Supervision</a></li>
             </ul>
           </div>
           <div>

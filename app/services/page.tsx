@@ -41,7 +41,7 @@ export default function ServicesPage() {
             title="Container Loading Supervision (CLS)"
             description="Ensure the correct products are loaded, the quantity is right, and the container is sealed securely in our presence."
             features={['Loading Process Monitoring', 'Quantity Verification', 'Container Condition Check', 'Seal Verification']}
-            link="/services/cls"
+            link="/container-loading-supervision"
             price="From $149"
           />
         </div>
