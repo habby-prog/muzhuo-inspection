@@ -2,7 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Logo from './Logo'
+
+const esNavLinks = [
+  { href: '/es', label: 'Inicio' },
+  { href: '/es#servicios', label: 'Servicios' },
+  { href: '/es#proceso', label: 'Proceso' },
+  { href: '/es#ejemplos', label: 'Informes' },
+  { href: '/es#contacto', label: 'Contacto' },
+]
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -15,6 +24,9 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+  const isEs = pathname?.startsWith('/es')
+  const links = isEs ? esNavLinks : navLinks
 
   // close mobile menu on popstate (browser back/forward)
   useEffect(() => {
@@ -36,13 +48,13 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm">
       <div className="container flex h-20 items-center justify-between mx-auto px-4">
-        <a href="/" className="flex items-center gap-2">
+        <a href={isEs ? '/es' : '/'} className="flex items-center gap-2">
           <Logo className="h-10 w-auto" />
         </a>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-wider">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -54,11 +66,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <a href={isEs ? '/' : '/es'} className="text-xs font-bold text-slate-500 hover:text-primary-600">
+            {isEs ? 'EN' : 'ES'}
+          </a>
           <a
-            href="/order"
+            href={isEs ? '/es#contacto' : '/order'}
             className="rounded-full bg-primary-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-primary-700 transition-all shadow-md"
           >
-            Book Online
+            {isEs ? 'Cotizar' : 'Book Online'}
           </a>
 
           {/* Hamburger button – mobile only */}
@@ -100,7 +115,7 @@ export default function Header() {
         }`}
       >
         <nav className="flex flex-col border-t bg-white px-4 py-4 space-y-1">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
