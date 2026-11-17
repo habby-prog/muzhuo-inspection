@@ -176,7 +176,7 @@ export default function SampleReport() {
             <h2 className="text-2xl font-bold mb-3">Other categories: sample by email</h2>
             <p className="text-slate-600 mb-6">
               Electronics, factory assessment, industrial goods and ceramic reports are not published
-              here. Tell us the category and we will email the matching sample with its photo pages.
+              here. Tell us the category and we will email the matching sample with its photo pages. One sample per company — pick the closest category.
             </p>
             <SampleRequestForm />
           </div>

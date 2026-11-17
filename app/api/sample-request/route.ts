@@ -46,7 +46,7 @@ export async function POST(req: Request) {
             <tr><td style="padding:8px 0;color:#475569">Country</td><td style="padding:8px 0">${country || 'N/A'}</td></tr>
             <tr><td style="padding:8px 0;color:#475569;vertical-align:top">Note</td><td style="padding:8px 0;white-space:pre-wrap">${note || 'N/A'}</td></tr>
           </table>
-          <p style="margin-top:24px;color:#64748b;font-size:13px">Reply with the matching sample report attached.</p>
+          <p style="margin-top:24px;color:#64748b;font-size:13px">Policy: one report per requester. Send only the category requested; do not attach additional samples.</p>
         </div>
       `,
     })
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       html: `
         <div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;max-width:600px;margin:0 auto;padding:24px">
           <h2 style="color:#2B7FD8">Thanks - we have your request</h2>
-          <p style="color:#334155;line-height:1.6">You asked for a sample report for <strong>${label}</strong>. We will send the matching report to this address, normally within one business day.</p>
+          <p style="color:#334155;line-height:1.6">You asked for a sample report for <strong>${label}</strong>. We will send the matching report to this address, normally within one business day. One sample per company.</p>
           <p style="color:#334155;line-height:1.6">If it is urgent, reply with the product and destination country and we will prioritise it.</p>
           <p style="margin-top:28px;color:#64748b;font-size:13px">Muzhuo Inspection - <a href="https://www.muzhuoinspection.com">muzhuoinspection.com</a></p>
         </div>

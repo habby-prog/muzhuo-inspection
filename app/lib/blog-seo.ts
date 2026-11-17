@@ -162,6 +162,36 @@ export const blogSeo: Record<string, BlogSeo> = {
       },
     ],
   },
+  'normas-fotografia-informes-inspeccion': {
+    metaTitle: 'Fotografía de informes de inspección: las 5 vistas que sirven como prueba',
+    metaDescription:
+      'Cómo fotografiar etiquetas, cajas y defectos para que el informe resista una disputa: 5 vistas, escala, luz y nombres de archivo.',
+  },
+  'como-verificar-proveedor-china-cumple-normas-mexicanas': {
+    metaTitle: 'Verificar un proveedor chino para México: checklist NOM y SAT',
+    metaDescription:
+      'Qué revisar antes de pagar: datos fiscales, NOM aplicable, etiquetado en español, capacidad real y documentos que el proveedor debe entregar.',
+  },
+  'container-weight-limits-overweight-prevention': {
+    metaTitle: 'Container Weight Limits 2026: VGM, Overweight Fines and Prevention',
+    metaDescription:
+      'How VGM, axle limits and carrier cut-offs work, what an overweight container costs, and how to check weight before the seal goes on.',
+  },
+  'ceramic-tile-inspection-before-shipping-guide': {
+    metaTitle: 'Ceramic Tile Inspection: Shade, Size and Breakage Checklist',
+    metaDescription:
+      'How to inspect ceramic tiles before shipment: shade variation, calibrated size, water absorption, edge chips and carton breakage, with AQL sampling.',
+  },
+  'pre-production-sample-approval-china-guide': {
+    metaTitle: 'Golden Sample Approval: Lock the Standard Before Mass Production',
+    metaDescription:
+      'How to approve a pre-production sample so the factory cannot drift: what to measure, what to photograph, what to sign, and what to do when it fails.',
+  },
+  'furniture-inspection-china-pre-shipment-guide': {
+    metaTitle: 'Furniture Inspection in China: What to Check Before Shipping',
+    metaDescription:
+      'Furniture pre-shipment checks: joints, hardware, finish, dimensions, packaging and drop protection, plus the defects that survive the sea voyage.',
+  },
 }
 
 export function getBlogSeo(slug: string): BlogSeo | undefined {
