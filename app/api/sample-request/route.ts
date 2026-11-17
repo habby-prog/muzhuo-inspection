@@ -19,7 +19,7 @@ const LABELS: Record<string, string> = {
 
 export async function POST(req: Request) {
   try {
-    const { email, category, country, note } = await req.json()
+    const { email, company, category, country, note } = await req.json()
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: 'A valid email is required' }, { status: 400 })
@@ -35,12 +35,13 @@ export async function POST(req: Request) {
       from: 'Muzhuo Inspection <info@muzhuoinspection.com>',
       to: ['info@muzhuoinspection.com'],
       replyTo: email,
-      subject: `Sample report request: ${label}`,
+      subject: `Sample report request: ${company || email} — ${label}`,
       html: `
         <div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;max-width:600px;margin:0 auto;padding:24px">
           <h1 style="color:#2B7FD8;font-size:22px;margin:0 0 16px">Sample report request</h1>
           <table style="width:100%;border-collapse:collapse">
             <tr><td style="padding:8px 0;color:#475569;width:110px">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+            <tr><td style="padding:8px 0;color:#475569">Company</td><td style="padding:8px 0">${company || 'N/A'}</td></tr>
             <tr><td style="padding:8px 0;color:#475569">Category</td><td style="padding:8px 0">${label}</td></tr>
             <tr><td style="padding:8px 0;color:#475569">Country</td><td style="padding:8px 0">${country || 'N/A'}</td></tr>
             <tr><td style="padding:8px 0;color:#475569;vertical-align:top">Note</td><td style="padding:8px 0;white-space:pre-wrap">${note || 'N/A'}</td></tr>

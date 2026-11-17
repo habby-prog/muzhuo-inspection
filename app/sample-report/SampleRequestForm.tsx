@@ -13,6 +13,7 @@ const CATEGORIES = [
 
 export default function SampleRequestForm() {
   const [email, setEmail] = useState('')
+  const [company, setCompany] = useState('')
   const [category, setCategory] = useState('textiles')
   const [country, setCountry] = useState('')
   const [note, setNote] = useState('')
@@ -27,7 +28,7 @@ export default function SampleRequestForm() {
       const res = await fetch('/api/sample-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, category, country, note }),
+        body: JSON.stringify({ email, company, category, country, note }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Request failed')
@@ -51,8 +52,18 @@ export default function SampleRequestForm() {
 
   return (
     <form onSubmit={submit} className="rounded-2xl border border-slate-200 bg-slate-50 p-8 space-y-4">
-      <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">Work email</label>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Company</label>
+          <input
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            placeholder="Your company"
+            className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-primary-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Work email</label>
         <input
           type="email"
           required
@@ -60,7 +71,8 @@ export default function SampleRequestForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-primary-500 focus:outline-none"
-        />
+          />
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
