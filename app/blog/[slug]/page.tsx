@@ -7,7 +7,7 @@ import { isSpanishSlug } from '../../lib/slug-lang';
 import { getBlogSeo } from '../../lib/blog-seo';
 
 async function getPost(slug: string) {
-  const query = `*[_type == "post" && slug.current == $slug][0] {
+  const query = `*[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {
     title,
     mainImage,
     body,

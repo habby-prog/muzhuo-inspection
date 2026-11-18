@@ -41,7 +41,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   const posts = await getBlogEntries()
-  const blogPages: MetadataRoute.Sitemap = posts.map((p) => ({
+  // Sanity 里存在同 slug 重复文档（新旧两版），sitemap 只保留最新更新的一版
+  const latestBySlug = new Map<string, { slug: string; updated: string }>()
+  for (const p of posts) {
+    const prev = latestBySlug.get(p.slug)
+    if (!prev || new Date(p.updated).getTime() > new Date(prev.updated).getTime()) latestBySlug.set(p.slug, p)
+  }
+  const blogPages: MetadataRoute.Sitemap = Array.from(latestBySlug.values()).map((p) => ({
     url: `${domain}/blog/${p.slug}`,
     lastModified: p.updated ? new Date(p.updated) : undefined,
     changeFrequency: 'monthly',
