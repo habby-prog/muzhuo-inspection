@@ -40,6 +40,10 @@ export default function RootLayout({
     "name": "Muzhuo Inspection",
     "description": "Professional quality control and factory audit services in China.",
     "url": SITE_URL,
+    "logo": `${SITE_URL}/seo/logo-900.png`,
+    "image": `${SITE_URL}/seo/linkedin-banner-1128x191.png`,
+    "email": "info@muzhuoinspection.com",
+    "areaServed": ["China"],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R522, Building 2, Jiading Innovation Harbor, No. 568 Antuo Road, Anting Town, Jiading District",
