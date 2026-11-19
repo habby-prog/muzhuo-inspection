@@ -4,6 +4,7 @@ import './globals.css'
 import Header from './components/Header'
 import EmailLink from './components/EmailLink'
 import { SITE_URL } from './lib/site'
+import { LANG_SIGNAL_SCRIPT } from './lib/slug-lang'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -54,6 +55,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LANG_SIGNAL_SCRIPT }} />
+      </head>
       <body className={inter.className}>
         <script
           defer

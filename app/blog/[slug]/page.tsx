@@ -281,7 +281,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const heading = seo?.h1 || post.title;
   const faqItems = seo ? buildFaqItems(post.body, seo.faqs) : [];
   const pageUrl = `${SITE_URL}/blog/${params.slug}`;
-  const isEs = isSpanishSlug(params.slug);
+  // html lang / og:locale are handled in app/layout.tsx (LANG_SIGNAL_SCRIPT)
+  // and generateMetadata above; keep this component free of lang side effects.
   const faqJsonLd = faqItems.length >= 2 ? {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -313,9 +314,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   return (
     <div className="bg-white px-6 py-32 lg:px-8">
-      {isEs && (
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.lang='es'" }} />
-      )}
       <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
         <nav className="flex mb-8 text-sm text-gray-400" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-2">
