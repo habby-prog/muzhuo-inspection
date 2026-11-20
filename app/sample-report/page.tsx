@@ -38,9 +38,24 @@ export default function SampleReport() {
     ],
   }
 
+  const sampleDoc = {
+    '@context': 'https://schema.org',
+    '@type': 'Report',
+    name: 'Sample pre-shipment inspection report',
+    description:
+      'Sample pre-shipment inspection report: report structure, AQL sampling plan, defect classification, findings and photo pages. Fictitious product, client details removed.',
+    url: pageUrl,
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+    about: 'Pre-shipment inspection report structure and AQL defect classification',
+    author: { '@type': 'Organization', name: 'Muzhuo Inspection', url: SITE_URL },
+    publisher: { '@type': 'Organization', name: 'Muzhuo Inspection', url: SITE_URL },
+  }
+
   return (
     <div className="bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sampleDoc) }} />
 
       <section className="bg-slate-900 text-white py-20">
         <div className="container mx-auto px-4 max-w-4xl">

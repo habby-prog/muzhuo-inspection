@@ -19,9 +19,22 @@ export default function CaseStudies() {
     ],
   }
 
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Inspection and loading supervision case studies',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'From a Google search to a first order', url: pageUrl + '#case-01' },
+      { '@type': 'ListItem', position: 2, name: 'A container rejected before loading started', url: pageUrl + '#case-02' },
+      { '@type': 'ListItem', position: 3, name: 'Canned food for Zanzibar: dates and labels checked before the container', url: pageUrl + '#case-03' },
+      { '@type': 'ListItem', position: 4, name: 'Fabric rolls loaded on a truck, not a container', url: pageUrl + '#case-04' },
+    ],
+  }
+
   return (
     <div className="bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
 
       <section className="bg-slate-900 text-white py-20">
         <div className="container mx-auto px-4 max-w-4xl">
@@ -44,7 +57,7 @@ export default function CaseStudies() {
 
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-3xl">
-          <article className="mb-16">
+          <article id="case-01" className="mb-16">
             <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 01 · Search inquiry</p>
             <h2 className="text-3xl font-bold mb-6">From a Google search to a first order</h2>
             <div className="prose max-w-none text-slate-700 space-y-4">
@@ -72,7 +85,7 @@ export default function CaseStudies() {
             </div>
           </article>
 
-          <article className="mb-16">
+          <article id="case-02" className="mb-16">
             <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 02 · Loading supervision</p>
             <h2 className="text-3xl font-bold mb-6">A container rejected before loading started</h2>
             <div className="prose max-w-none text-slate-700 space-y-4">
@@ -101,7 +114,7 @@ export default function CaseStudies() {
             </div>
           </article>
 
-          <article className="mb-16">
+          <article id="case-03" className="mb-16">
             <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 03 · Food export</p>
             <h2 className="text-3xl font-bold mb-6">Canned food for Zanzibar: dates and labels checked before the container</h2>
             <div className="prose max-w-none text-slate-700 space-y-4">
@@ -124,7 +137,7 @@ export default function CaseStudies() {
             </div>
           </article>
 
-          <article className="mb-16">
+          <article id="case-04" className="mb-16">
             <p className="text-sm font-bold uppercase tracking-widest text-primary-600 mb-3">Case 04 · Fabric loading</p>
             <h2 className="text-3xl font-bold mb-6">Fabric rolls loaded on a truck, not a container</h2>
             <div className="prose max-w-none text-slate-700 space-y-4">
