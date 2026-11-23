@@ -18,6 +18,9 @@ const nextConfig = {
       // 博客正文里指向的旧服务路径，现无对应页面，跳到质检服务主推页（PSI）
       { source: '/quality-inspection', destination: '/services/psi', permanent: true },
       { source: '/services/quality-inspection', destination: '/services/psi', permanent: true },
+      // PSI 页的真实路径是 /services/psi，下面两个是同义写法，均 404
+      { source: '/services/pre-shipment-inspection', destination: '/services/psi', permanent: true },
+      { source: '/pre-shipment-inspection', destination: '/services/psi', permanent: true },
     ]
   },
   images: {
