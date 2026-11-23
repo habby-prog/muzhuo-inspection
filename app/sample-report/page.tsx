@@ -86,7 +86,17 @@ export default function SampleReport() {
           </p>
           <div className="grid gap-6 sm:grid-cols-2 mb-14">
             <a href="/samples/MUZHUO-Sample-Clothing-Inspection.pdf" className="block rounded-2xl border border-slate-200 overflow-hidden hover:border-primary-500 transition-colors">
-              <img src="/samples/MUZHUO-Sample-Clothing-Inspection-p1.jpg" alt="Clothing inspection sample report cover" className="w-full h-auto" />
+              <img
+                src="/samples/MUZHUO-Sample-Clothing-Inspection-p1-765.webp"
+                srcSet="/samples/MUZHUO-Sample-Clothing-Inspection-p1-400.webp 400w, /samples/MUZHUO-Sample-Clothing-Inspection-p1-765.webp 765w"
+                sizes="(min-width: 640px) 380px, 90vw"
+                width={765}
+                height={990}
+                loading="lazy"
+                decoding="async"
+                alt="Clothing inspection sample report cover"
+                className="w-full h-auto"
+              />
               <div className="p-5">
                 <p className="text-xs uppercase tracking-widest text-primary-600 mb-1">Textiles</p>
                 <h3 className="font-bold text-lg">Clothing inspection report</h3>
@@ -94,7 +104,17 @@ export default function SampleReport() {
               </div>
             </a>
             <a href="/samples/MUZHUO-Sample-Loading-Supervision.pdf" className="block rounded-2xl border border-slate-200 overflow-hidden hover:border-primary-500 transition-colors">
-              <img src="/samples/MUZHUO-Sample-Loading-Supervision-p1.jpg" alt="Container loading supervision sample report cover" className="w-full h-auto" />
+              <img
+                src="/samples/MUZHUO-Sample-Loading-Supervision-p1-765.webp"
+                srcSet="/samples/MUZHUO-Sample-Loading-Supervision-p1-400.webp 400w, /samples/MUZHUO-Sample-Loading-Supervision-p1-765.webp 765w"
+                sizes="(min-width: 640px) 380px, 90vw"
+                width={765}
+                height={990}
+                loading="lazy"
+                decoding="async"
+                alt="Container loading supervision sample report cover"
+                className="w-full h-auto"
+              />
               <div className="p-5">
                 <p className="text-xs uppercase tracking-widest text-primary-600 mb-1">Loading supervision</p>
                 <h3 className="font-bold text-lg">Container loading supervision report</h3>
