@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '../lib/site'
+import { OG_DEFAULT, OG_DEFAULT_IMAGES } from '../lib/og'
 
 export const metadata: Metadata = {
   title: 'Inspección de calidad en China | MUZHUO Inspection',
@@ -16,6 +17,14 @@ export const metadata: Metadata = {
     url: SITE_URL + '/es',
     locale: 'es_MX',
     type: 'website',
+    images: OG_DEFAULT_IMAGES,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Inspección de calidad en China | MUZHUO Inspection',
+    description:
+      'Inspección pre-embarque, auditoría de fábrica y supervisión de carga en China. Informe con fotos en 24 horas.',
+    images: [OG_DEFAULT.url],
   },
 }
 

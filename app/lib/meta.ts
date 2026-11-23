@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from './site'
+import { OG_DEFAULT, OG_DEFAULT_IMAGES } from './og'
 
 /**
  * 页面级 metadata 统一构造：canonical 与 og:url 都指向本页。
@@ -19,6 +20,13 @@ export function pageMetadata(path: string, title: string, description: string): 
       siteName: 'Muzhuo Inspection',
       locale: 'en_US',
       type: 'website',
+      images: OG_DEFAULT_IMAGES,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [OG_DEFAULT.url],
     },
   }
 }

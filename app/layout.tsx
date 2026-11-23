@@ -5,6 +5,7 @@ import Header from './components/Header'
 import EmailLink from './components/EmailLink'
 import { SITE_URL } from './lib/site'
 import { LANG_SIGNAL_SCRIPT } from './lib/slug-lang'
+import { OG_DEFAULT, OG_DEFAULT_IMAGES } from './lib/og'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,6 +23,13 @@ export const metadata: Metadata = {
     siteName: 'Muzhuo Inspection',
     locale: 'en_US',
     type: 'website',
+    images: OG_DEFAULT_IMAGES,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Muzhuo Inspection - Professional Quality Control',
+    description: 'Expert inspection services in China. Protecting your global supply chain.',
+    images: [OG_DEFAULT.url],
   },
   robots: {
     index: true,

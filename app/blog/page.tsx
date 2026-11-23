@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '../lib/site'
+import { OG_DEFAULT, OG_DEFAULT_IMAGES } from '../lib/og'
 
 import { client } from '../lib/sanity';
 import Image from 'next/image';
@@ -16,6 +17,14 @@ export const metadata: Metadata = {
       'Practical inspection guides for importers sourcing from China: AQL sampling, defect classification, NOM labeling and loading supervision.',
     url: SITE_URL + '/blog',
     type: 'website',
+    images: OG_DEFAULT_IMAGES,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Quality Inspection Blog | Muzhuo Inspection',
+    description:
+      'Practical inspection guides for importers sourcing from China: AQL sampling, defect classification, NOM labeling and loading supervision.',
+    images: [OG_DEFAULT.url],
   },
 }
 

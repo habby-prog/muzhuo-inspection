@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { SITE_URL } from '../../lib/site'
 import { isSpanishSlug } from '../../lib/slug-lang';
 import { getBlogSeo } from '../../lib/blog-seo';
+import { OG_DEFAULT, OG_DEFAULT_IMAGES } from '../../lib/og';
 
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {
@@ -55,6 +56,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       publishedTime: post.publishedAt,
       url,
       locale: isEs ? 'es_MX' : 'en_US',
+      images: post.mainImage ? [ogImageUrl(post.mainImage)] : OG_DEFAULT_IMAGES,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: metaTitle,
+      description: metaDescription,
+      images: [post.mainImage ? ogImageUrl(post.mainImage) : OG_DEFAULT.url],
     },
     robots: { index: true, follow: true },
     alternates: { canonical: url, languages: isEs ? { es: url, 'x-default': url } : { en: url, 'x-default': url } },
@@ -120,6 +128,11 @@ function buildFaqItems(body: any[], extra?: { q: string; a: string }[]) {
 }
 const YELLOW = '#F4D758';
 const RED = '#E84A5F';
+
+/**
+ * OG 社交分享图：复用 getImageUrl，仅把宽度提到 1200（社交卡片推荐最小宽度）。
+ */
+const ogImageUrl = (source: any) => getImageUrl(source).replace('w=800', 'w=1200');
 
 const getImageUrl = (source: any) => {
     if (!source) return '/placeholder.svg';
