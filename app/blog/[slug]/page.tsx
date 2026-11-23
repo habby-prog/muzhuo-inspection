@@ -69,6 +69,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
+/** 每篇文章的稳定指纹编号：由 slug 派生，同一 slug 永远得到同一编号。 */
+const articleRef = (slug: string) => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return 'MZ-' + h.toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
+};
+
 const BLUE = '#2B7FD8';
 
 // --- FAQ extraction for FAQPage JSON-LD ---
@@ -357,6 +364,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               {post.authorName && ` by ${post.authorName}`}
             </p>
           )}
+          <p className="mt-1 text-xs text-gray-400">
+            Article ref {articleRef(params.slug)} — compiled from Muzhuo Inspection field records.
+          </p>
           {seo?.lead && (
             <p className="mt-6 text-lg leading-8 text-gray-600">
               {seo.lead}
