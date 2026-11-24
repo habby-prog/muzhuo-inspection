@@ -21,6 +21,25 @@ const nextConfig = {
       // PSI 页的真实路径是 /services/psi，下面两个是同义写法，均 404
       { source: '/services/pre-shipment-inspection', destination: '/services/psi', permanent: true },
       { source: '/pre-shipment-inspection', destination: '/services/psi', permanent: true },
+      // 2026-11-24 D9 复核 Cloudflare 近 26 天 404：以下为真实旧入口，非扫描路径
+      { source: '/contactus.html', destination: '/contact', permanent: true },
+      { source: '/sitemap_index.xml', destination: '/sitemap.xml', permanent: true },
+      { source: '/privacy-policy', destination: '/privacy', permanent: true },
+      { source: '/case-study', destination: '/case-studies', permanent: true },
+      { source: '/inspections', destination: '/services', permanent: true },
+      { source: '/report', destination: '/sample-report', permanent: true },
+      { source: '/container-loading', destination: '/container-loading-supervision', permanent: true },
+      { source: '/certification', destination: '/services', permanent: true },
+      { source: '/es/inspeccion-de-fabrica', destination: '/es', permanent: true },
+      // 旧站图标资源（浏览器/收藏夹仍在请求），统一回落到现有 favicon
+      { source: '/favicon-32x32.png', destination: '/favicon.ico', permanent: true },
+      { source: '/favicon.png', destination: '/favicon.ico', permanent: true },
+      { source: '/apple-touch-icon.png', destination: '/icon.png', permanent: true },
+      { source: '/assets/favicon.ico', destination: '/favicon.ico', permanent: true },
+      { source: '/static/favicon.ico', destination: '/favicon.ico', permanent: true },
+      { source: '/img/favicon.ico', destination: '/favicon.ico', permanent: true },
+      { source: '/images/favicon.ico', destination: '/favicon.ico', permanent: true },
+      { source: '/icon/favicon.ico', destination: '/favicon.ico', permanent: true },
     ]
   },
   images: {
